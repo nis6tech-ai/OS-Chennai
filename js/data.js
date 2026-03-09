@@ -20,7 +20,7 @@ async function loadLiveSiteData() {
         }
 
         window.liveData = data;
-        
+
         // Override identity for this clone site
         if (data && data.settings) {
             data.settings.siteName = "OS Chennai";
@@ -35,9 +35,9 @@ async function loadLiveSiteData() {
         // Custom event so components can start rendering
         window.dispatchEvent(new Event('dataLoaded'));
         console.log("PHP Data Load: Success");
-        // Wait for all specific page dataLoaded listeners to finish setting innerHTML
         setTimeout(() => {
             applyDynamicSettings(data.settings);
+            if (window.lucide) lucide.createIcons();
         }, 100);
 
     } catch (e) {

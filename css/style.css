@@ -813,32 +813,33 @@ body {
 }
 
 .social-box {
-    width: 45px;
-    height: 45px;
-    background: white;
-    border: 1px solid var(--border);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-main);
+    color: #ffffff !important;
     transition: var(--transition);
     cursor: pointer;
+    text-decoration: none;
 }
 
 .social-box:hover {
     background: var(--primary);
-    color: white;
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 10px 20px -5px var(--primary);
+    color: #ffffff;
+    transform: translateY(-5px);
     border-color: var(--primary);
 }
 
 .social-box i,
 .social-box svg {
-    width: 22px;
-    height: 22px;
+    width: 22px !important;
+    height: 22px !important;
     stroke-width: 2px;
+    color: #ffffff !important;
 }
 
 /* Search Bar - Modern Pill Design */
