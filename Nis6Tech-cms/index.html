@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Chennai CMS | Admin Control</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --sidebar: #0f172a;
+            --main-bg: #f8fafc;
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-soft: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .client-info {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 0 1rem 2rem;
+            border-radius: 12px;
+        }
+
+        .client-info label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .client-selector {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+
+        .nav {
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-align: left;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .header {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .content {
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Dashboard Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-val {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-soft);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tables */
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1.5rem;
+            background: #f8fafc;
+            color: var(--text-soft);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .p-thumb {
+            width: 50px;
+            height: 50px;
+            background: #f8fafc;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .badge {
+            background: #eff6ff;
+            color: var(--primary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Forms / Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 600px;
+            max-width: 95vw;
+            max-height: 90vh;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: #f1f5f9;
+            color: var(--text-main);
+        }
+
+        .btn-danger-ghost {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .client-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .client-list-item:hover {
+            background: var(--bg-soft);
+        }
+
+        /* Login Screen */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .login-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .login-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .login-card .login-logo {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .login-card h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .login-card p {
+            color: var(--text-soft);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-card .form-group {
+            text-align: left;
+            margin-bottom: 1.25rem;
+        }
+
+        .login-card .form-group label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .login-card .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .login-card .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .login-error {
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .login-error.show {
+            display: flex;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .logout-btn {
+            margin: 1rem;
+            padding: 1rem;
+            color: #f87171;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            border-radius: 12px;
+            width: calc(100% - 2rem);
+        }
+
+        .logout-btn:hover {
+            background: rgba(248, 113, 113, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">N</div>
+            <h2>Welcome Back</h2>
+            <p>Sign in to OS Chennai CMS Admin Panel</p>
+            <div class="login-error" id="loginError">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width: 16px; height: 16px; flex-shrink: 0;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+                <span>Invalid username or password</span>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Enter username"
+                        autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter password"
+                        autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-box">N</div>
+            OS Chennai <span>CMS</span>
+        </div>
+
+        <div class="client-info">
+            <label>Selected Portfolio</label>
+            <div class="client-selector" id="clientDisplay" onclick="openClientSwitcher()">
+                <span id="activeProjectName">OS Chennai Electronics</span>
+                <i data-lucide="chevrons-up-down" style="width: 16px;"></i>
+            </div>
+        </div>
+
+        <div class="nav">
+            <button class="nav-link active" onclick="switchTab(this, 'dashboard')"><i
+                    data-lucide="layout-dashboard"></i> Dashboard</button>
+            <button class="nav-link" onclick="switchTab(this, 'inventory')"><i data-lucide="package"></i>
+                Inventory</button>
+            <button class="nav-link" onclick="switchTab(this, 'clients')"><i data-lucide="globe"></i> Manage
+                Clients</button>
+            <button class="nav-link" onclick="switchTab(this, 'settings')"><i data-lucide="settings"></i>
+                Configurations</button>
+        </div>
+
+        <a href="../index.html"
+            style="margin: 2rem 1rem 0; padding: 1rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 1rem; font-weight: 500; font-size: 0.9rem;">
+            <i data-lucide="external-link"></i> Live Site View
+        </a>
+        <button class="logout-btn" onclick="handleLogout()">
+            <i data-lucide="log-out"></i> Sign Out
+        </button>
+    </aside>
+
+    <main class="main">
+        <header class="header">
+            <h1 id="tabTitle">Dashboard</h1>
+            <div class="actions" id="headerActions"></div>
+        </header>
+
+        <div class="content" id="mainContent"></div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" style="margin-bottom: 2rem;">Add New Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="pName" class="form-control" required placeholder="e.g. MacBook Air">
+                </div>
+                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="display: flex; justify-content: space-between;">
+                            <span>Category</span>
+                            <a href="#" onclick="openCategoryModal()"
+                                style="color: var(--primary); text-decoration: none; font-size: 0.8rem;">+ New
+                                Category</a>
+                        </label>
+                        <select id="pCategory" class="form-control" required></select>
+                    </div>
+                    <div>
+                        <label>Market Price (₹)</label>
+                        <input type="text" id="pPrice" class="form-control" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Product Images</label>
+                    <div
+                        style="background: #fdf2f2; border: 1px solid #fecaca; padding: 0.75rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.8rem; color: #991b1b; display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="alert-triangle" style="width: 16px;"></i>
+                        <span>Recommended size: <strong>800x800 pixels</strong> (Center the product for best fit). Max
+                            10MB.</span>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; border: 2px dashed var(--border);">
+                        <div id="mediaPreviewContainer"
+                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                            <!-- Previews will appear here -->
+                        </div>
+
+
+
+                        <!-- Option 2: Upload (Requires Firebase Storage) -->
+                        <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+                            <input type="file" id="pMediaUpload" accept="image/*" multiple style="display: none;"
+                                onchange="handleMediaSelection(this)">
+                            <button type="button" class="btn btn-ghost"
+                                onclick="document.getElementById('pMediaUpload').click()"
+                                style="width: 100%; justify-content: center; font-size: 0.8rem; background: #f8fafc;">
+                                <i data-lucide="camera" style="width: 16px;"></i> Or Upload from Computer
+                            </button>
+                        </div>
+                        <div id="uploadProgress"
+                            style="display: none; margin-top: 1.5rem; background: #fff; padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <small id="uploadStatus"
+                                    style="color: var(--text-main); font-size: 0.75rem; font-weight: 700;"></small>
+                                <button type="button" onclick="abortAllUploads()"
+                                    style="background: #fee2e2; border: none; color: var(--danger); font-size: 0.65rem; font-weight: 800; cursor: pointer; text-transform: uppercase; padding: 4px 8px; border-radius: 6px;">Cancel</button>
+                            </div>
+                            <div style="height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
+                                <div id="progressBar"
+                                    style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s; border-radius: 4px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                    style="background:#eff6ff; padding: 1rem; border-radius: 12px; border: 1px solid #bfdbfe;">
+                    <label style="color:#1e40af;"><i data-lucide="youtube"
+                            style="width:16px; vertical-align:middle;"></i> Video URL (YouTube or Direct Link)</label>
+                    <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                        <input type="text" id="pVideoLink" class="form-control" placeholder="Paste YouTube link here..."
+                            style="flex:1;">
+                        <button type="button" class="btn btn-primary" onclick="addVideoLink()"
+                            style="padding:0.6rem 1rem;">Add</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="pDesc" class="form-control" rows="2" style="resize: none;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Specifications (One per line)</label>
+                    <textarea id="pSpecs" class="form-control" rows="4"
+                        placeholder="e.g.&#10;16GB RAM&#10;1TB SSD&#10;M3 Chip" style="resize: none;"></textarea>
+                    <small style="color:var(--text-soft); font-size:0.75rem;">Enter each technical feature on a new
+                        line.</small>
+                </div>
+                <div class="form-group">
+                    <label
+                        style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; background: #fef3c7; padding: 0.75rem; border-radius: 10px; border: 1px solid #fde68a;">
+                        <input type="checkbox" id="pTopSelling" style="width: 18px; height: 18px;">
+                        <span style="color: #92400e; font-weight: 700;">Show in Top Selling Products Section on
+                            Homepage</span>
+                    </label>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('productModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Client Switcher Modal -->
+    <div class="modal" id="clientModal">
+        <div class="modal-content" style="width: 600px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2>Switch Portfolio</h2>
+                <button class="btn btn-primary btn-icon" onclick="openAddClient()"><i data-lucide="plus"></i></button>
+            </div>
+            <div id="clientList" class="card" style="max-height: 400px; overflow-y: auto;"></div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                <button class="btn btn-ghost" onclick="closeModal('clientModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div class="modal" id="addClientModal">
+        <div class="modal-content">
+            <h2>Add New Website Project</h2>
+            <form id="clientForm" style="margin-top: 2rem;">
+                <div class="form-group">
+                    <label>Website Name</label>
+                    <input type="text" id="cName" class="form-control" required placeholder="e.g. My Next Client">
+                </div>
+                <div class="form-group">
+                    <label>Public Domain</label>
+                    <input type="text" id="cDomain" class="form-control" placeholder="e.g. client-site.com">
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addClientModal')">Back</button>
+                    <button type="submit" class="btn btn-primary">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-content" style="width: 400px;">
+            <h2 style="margin-bottom: 2rem;">Add New Category</h2>
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label>Category ID</label>
+                    <input type="text" id="catId" class="form-control" required placeholder="e.g. servers">
+                    <small style="color:var(--text-soft); font-size:0.75rem;">Used internally. No spaces.</small>
+                </div>
+                <div class="form-group">
+                    <label>Category Name</label>
+                    <input type="text" id="catName" class="form-control" required placeholder="e.g. Server Systems">
+                </div>
+                <div class="form-group">
+                    <label>Category Image URL</label>
+                    <input type="text" id="catImage" class="form-control" placeholder="https://..." required>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('categoryModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core Logic (Replaces Firebase) -->
+    <script src="../js/nexus-core.js"></script>
+    <script src="../js/data.js"></script>
+    <script>
+        let activeProject = NexusCore.getClients()[0];
+        let projectData = { settings: {}, categories: [], products: [] };
+        let currentTab = 'dashboard';
+
+        function resolveMediaUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('/')) return url;
+            return '../' + url;
+        }
+
+        // Initialize CMS Data from PHP
+        async function initCMS() {
+            try {
+                const data = await NexusCore.init('OS CHENNAI');
+                if (!data || data.error) {
+                    const errMsg = data ? data.error : "Database settings in api/connect.php are incorrect or server is unreachable.";
+                    document.getElementById('mainContent').innerHTML = `
+                        <div style="background:#fee2e2; border:1px solid #ef4444; color:#991b1b; padding:2rem; border-radius:16px; margin:2rem;">
+                            <h2 style="margin-bottom:1rem;">⚠️ Server Connection Failed</h2>
+                            <p>${errMsg}</p>
+                            <hr style="margin:1rem 0; opacity:0.2;">
+                            <p style="font-size:0.9rem;">Please check <strong>api/connect.php</strong> and ensure your database details are correct.</p>
+                            <button onclick="location.reload()" style="margin-top:1.5rem; background:#ef4444; color:white; border:none; padding:0.75rem 1.5rem; border-radius:8px; cursor:pointer; font-weight:700;">Try Again</button>
+                        </div>
+                    `;
+                    return;
+                }
+                projectData = data;
+                render();
+                lucide.createIcons();
+            } catch (err) {
+                console.error("CMS Load Fallback:", err);
+            }
+        }
+
+        initCMS();
+
+        function openClientSwitcher() {
+            const list = document.getElementById('clientList');
+            list.innerHTML = '';
+            NexusCore.getClients().forEach(c => {
+                list.innerHTML += `
+                    <div class="client-list-item" onclick="switchProject('${c.id}')">
+                        <div>
+                            <div style="font-weight: 800; font-size: 1.1rem;">${c.name}</div>
+                            <div style="color: var(--text-soft); font-size: 0.8rem;">${c.domain}</div>
+                        </div>
+                        <div class="badge" style="background: ${c.id === activeProject.id ? 'var(--primary)' : '#e2e8f0'}; color: ${c.id === activeProject.id ? 'white' : 'var(--text-soft)'}">
+                            ${c.id === activeProject.id ? 'Active' : 'Select'}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('clientModal').classList.add('active');
+        }
+
+        async function switchProject(cid) {
+            activeProject = NexusCore.getClients().find(c => c.id === cid);
+            projectData = await NexusCore.init(activeProject.id);
+            document.getElementById('activeProjectName').innerText = activeProject.name;
+            closeModal('clientModal');
+            render();
+        }
+
+        function openAddClient() {
+            closeModal('clientModal');
+            document.getElementById('addClientModal').classList.add('active');
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        document.getElementById('clientForm').onsubmit = (e) => {
+            e.preventDefault();
+            const nc = NexusCore.addClient(document.getElementById('cName').value, document.getElementById('cDomain').value);
+            // Provision the new client with the template
+            NexusCore.save(nc.id, window.initialData);
+            switchProject(nc.id);
+            closeModal('addClientModal');
+        };
+
+        function switchTab(el, tab) {
+            currentTab = tab;
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if (el) el.classList.add('active');
+            render();
+        }
+
+        function render() {
+            try {
+                const container = document.getElementById('mainContent');
+                const title = document.getElementById('tabTitle');
+                const actions = document.getElementById('headerActions');
+                actions.innerHTML = '';
+
+                // Ensure data is present
+                if (!projectData || !projectData.settings || Object.keys(projectData.settings).length === 0) {
+                    container.innerHTML = `<div style="padding:3rem; text-align:center; color:var(--text-soft);">Loading project data...</div>`;
+                    return;
+                }
+
+                if (currentTab === 'dashboard') {
+                    title.innerText = 'Project Overview';
+                    container.innerHTML = `
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div><span class="stat-label">Inventory Assets</span><span class="stat-val">${projectData.products.length}</span></div>
+                                <div class="stat-icon"><i data-lucide="package"></i></div>
+                            </div>
+                            <div class="stat-card">
+                                <div><span class="stat-label">Categories</span><span class="stat-val">${projectData.categories.length}</span></div>
+                                <div class="stat-icon"><i data-lucide="layers"></i></div>
+                            </div>
+                            <div class="stat-card">
+                                <div><span class="stat-label">Project Domain</span><span style="display:block; font-weight:700; margin-top:0.5rem;">${activeProject.domain}</span></div>
+                                <div class="stat-icon"><i data-lucide="link"></i></div>
+                            </div>
+                        </div>
+                    `;
+                } else if (currentTab === 'inventory') {
+                    title.innerText = 'Product Management';
+                    actions.innerHTML = `<button class="btn btn-primary" onclick="openProductModal()"><i data-lucide="plus"></i> Add Product</button>`;
+                    container.innerHTML = `
+                        <div class="card">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Details</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th style="text-align:right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${projectData.products.map(p => {
+                        const mainImage = p.media && p.media.length > 0 ? p.media[0].url : (p.image || '');
+                        const categoryObj = projectData.categories.find(c => c.id === p.category);
+                        const categoryName = categoryObj ? categoryObj.name : (p.category || 'N/A');
+                        return `
+                                        <tr>
+                                            <td><div style="width:50px; height:50px; background:#f1f5f9; border-radius:8px; overflow:hidden;"><img src="${resolveMediaUrl(mainImage)}" class="p-thumb" style="width:100%; height:100%; object-fit:contain;"></div></td>
+                                            <td><div style="font-weight: 800;">${p.name} ${p.isTopSelling ? '<span style="background:#fef3c7; color:#92400e; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px; border: 1px solid #fde68a;">TOP</span>' : ''}</div><div style="font-size: 0.8rem; color: var(--text-soft); max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.description}</div></td>
+                                            <td><span class="badge">${categoryName}</span></td>
+                                            <td style="font-weight: 800;">₹${p.price}</td>
+                                            <td style="text-align:right">
+                                                <div style="display:flex; gap: 0.5rem; justify-content: flex-end;">
+                                                    <button class="btn btn-ghost btn-icon" onclick="editProduct(${p.id})"><i data-lucide="edit-3" style="width: 16px"></i></button>
+                                                    <button class="btn btn-danger-ghost btn-icon" onclick="deleteProduct(${p.id})"><i data-lucide="trash-2" style="width: 16px"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
+                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else if (currentTab === 'clients') {
+                    title.innerText = 'Multi-Tenant Portfolio';
+                    actions.innerHTML = `<button class="btn btn-primary" onclick="openAddClient()"><i data-lucide="plus"></i> Register Website</button>`;
+                    container.innerHTML = `
+                        <div class="card">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Target Domain</th>
+                                        <th>Status</th>
+                                        <th style="text-align:right">Management</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${NexusCore.getClients().map(c => `
+                                        <tr>
+                                            <td><div style="font-weight: 800;">${c.name}</div></td>
+                                            <td><code>${c.domain}</code></td>
+                                            <td><span class="badge" style="background: #dcfce7; color: #166534;">PROVISIONED</span></td>
+                                            <td style="text-align:right">
+                                                <button class="btn btn-primary" onclick="switchProject('${c.id}')">Switch to ${c.id === activeProject.id ? 'Active' : 'Edit'}</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else if (currentTab === 'settings') {
+                    title.innerText = 'Global Configurations';
+                    const s = projectData.settings || {};
+                    container.innerHTML = `
+                        <div class="card" style="padding: 3rem; max-width: 800px;">
+                            <form id="settingsForm">
+                                <div class="form-group">
+                                    <label>Site Appearance Name</label>
+                                    <input type="text" id="sName" class="form-control" value="${s.siteName || s.site_name || ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Marketing Tagline</label>
+                                    <input type="text" id="sTagline" class="form-control" value="${s.siteTagline || s.site_tagline || ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Site Navigation Logo</label>
+                                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; background: var(--main-bg); padding: 1rem; border-radius: 12px; border: 1px dashed var(--border);">
+                                        <div id="sLogoPreview" style="width: 80px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0;">
+                                            ${(s.siteLogo || s.site_logo) ? `<img src="${resolveMediaUrl(s.siteLogo || s.site_logo)}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i data-lucide="image" style="color: #94a3b8;"></i>`}
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <input type="file" id="sLogoUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'sLogoPreview', 'sLogo')">
+                                            <button type="button" class="btn btn-ghost" onclick="document.getElementById('sLogoUpload').click()" style="width: 100%; justify-content: center;">
+                                                <i data-lucide="camera"></i> Change Logo
+                                            </button>
+                                            <input type="hidden" id="sLogo" value="${s.siteLogo || s.site_logo || ''}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                                    <div class="form-group">
+                                        <label>Professional Email</label>
+                                        <input type="email" id="sEmail" class="form-control" value="${s.contactEmail || s.contact_email || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>WhatsApp Hotline</label>
+                                        <input type="text" id="sWhatsapp" class="form-control" value="${s.whatsappNumber || s.whatsapp_number || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Phone (Display)</label>
+                                        <input type="text" id="sPhone" class="form-control" value="${s.contactPhone || s.contact_phone || ''}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Physical Address / Office</label>
+                                    <input type="text" id="sAddress" class="form-control" value="${s.contactAddress || s.contact_address || ''}">
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                                    <button type="submit" class="btn btn-primary">Sync All Modifications</button>
+                                </div>
+                                <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #fee2e2;">
+                                    <h4 style="color: var(--danger); margin-bottom: 0.5rem;">Troubleshooting Area</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-soft); margin-bottom: 1.5rem;">If your site is not reflecting updates or CMS is stuck, perform a factory reset. This will clear all local changes and reload from the code.</p>
+                                    <button type="button" class="btn btn-danger-ghost" onclick="hardResetData()" style="width: 100%; justify-content: center;">
+                                        <i data-lucide="refresh-cw"></i> Factory Reset to Code Defaults
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                    document.getElementById('settingsForm').onsubmit = (e) => {
+                        e.preventDefault();
+                        const updated = {
+                            siteName: document.getElementById('sName').value,
+                            siteTagline: document.getElementById('sTagline').value,
+                            siteLogo: document.getElementById('sLogo').value,
+                            contactEmail: document.getElementById('sEmail').value,
+                            whatsappNumber: document.getElementById('sWhatsapp').value,
+                            contactPhone: document.getElementById('sPhone').value,
+                            contactAddress: document.getElementById('sAddress').value
+                        };
+                        projectData.settings = updated;
+                        NexusCore.save(activeProject.id, projectData).then(res => {
+                            if (res.success) {
+                                alert('Configurations synchronized successfully with the server!');
+                                render();
+                            } else {
+                                alert('Failed to sync: ' + (res.error || 'Server error'));
+                            }
+                        });
+                    };
+                }
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Render error:", err);
+                document.getElementById('mainContent').innerHTML = `<div style="padding:2rem;color:red;">Error loading content: ${err.message}. Please try refreshing or clearing cache.</div>`;
+            }
+        }
+
+        // CRUD Logic
+        function openCategoryModal() {
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        document.getElementById('categoryForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('catId').value.toLowerCase().replace(/\s+/g, '-').trim();
+            const name = document.getElementById('catName').value.trim();
+            const image = document.getElementById('catImage').value.trim();
+
+            if (!id || !name) return;
+
+            if (projectData.categories.find(c => c.id === id)) {
+                alert('Category ID already exists!');
+                return;
+            }
+
+            const newCat = { id, name, image };
+
+            // Save to MySQL
+            const res = await fetch('/api/sync.php?action=save_category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newCat)
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                projectData.categories.push(newCat);
+                const catSelect = document.getElementById('pCategory');
+                if (catSelect) {
+                    catSelect.innerHTML += `<option value="${id}">${name}</option>`;
+                    catSelect.value = id;
+                }
+                closeModal('categoryModal');
+                if (currentTab === 'dashboard') render();
+                alert('Category created and synced!');
+            } else {
+                alert('Failed to save category: ' + result.error);
+            }
+        };
+
+        let currentMediaItems = [];
+
+        function openProductModal(p = null) {
+            const catSelect = document.getElementById('pCategory');
+            catSelect.innerHTML = projectData.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+
+            // Clear progress
+            document.getElementById('uploadProgress').style.display = 'none';
+            document.getElementById('progressBar').style.width = '0%';
+
+            if (p) {
+                document.getElementById('modalTitle').innerText = 'Edit Product';
+                document.getElementById('editProductId').value = p.id;
+                document.getElementById('pName').value = p.name;
+                document.getElementById('pPrice').value = p.price;
+                document.getElementById('pDesc').value = p.description;
+                document.getElementById('pCategory').value = p.category;
+                document.getElementById('pTopSelling').checked = p.isTopSelling || false;
+                document.getElementById('pSpecs').value = (p.features || []).join('\n');
+
+                // Load existing media
+                currentMediaItems = p.media || (p.image ? [{ url: p.image, type: 'image' }] : []);
+            } else {
+                document.getElementById('modalTitle').innerText = 'Create New Product';
+                document.getElementById('productForm').reset();
+                document.getElementById('editProductId').value = '';
+                document.getElementById('pSpecs').value = '';
+                document.getElementById('pTopSelling').checked = false;
+                currentMediaItems = [];
+            }
+            updateMediaPreviews();
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        let uploadAborted = false;
+        let activeUploadTasks = [];
+
+        function abortAllUploads() {
+            if (activeUploadTasks.length > 0) {
+                if (confirm("Stop all ongoing uploads?")) {
+                    uploadAborted = true;
+                    activeUploadTasks.forEach(task => { if (task && task.cancel) task.cancel(); });
+                    activeUploadTasks = [];
+                    document.getElementById('uploadProgress').style.display = 'none';
+                }
+            } else {
+                uploadAborted = true;
+                document.getElementById('uploadProgress').style.display = 'none';
+            }
+        }
+
+        async function handleMediaSelection(input) {
+            const files = Array.from(input.files);
+            if (!files.length) return;
+
+            uploadAborted = false;
+            activeUploadTasks = [];
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('uploadStatus');
+
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            statusText.innerText = "Connecting to Cloud Storage...";
+
+            try {
+                let finishedCount = 0;
+
+                // Secure sequential upload to your server
+                for (let i = 0; i < files.length; i++) {
+                    if (uploadAborted) break;
+
+                    const file = files[i];
+                    statusText.innerText = `Sending file ${i + 1} to server storage...`;
+
+                    try {
+                        const result = await NexusCore.uploadFile(file);
+
+                        if (result.error) {
+                            alert("Upload Error: " + result.error);
+                            break;
+                        }
+
+                        currentMediaItems.push({ url: result.url, type: 'image' });
+                        updateMediaPreviews();
+
+                        finishedCount++;
+                        progressBar.style.width = (finishedCount / files.length) * 100 + '%';
+                    } catch (e) {
+                        console.error(e);
+                        break;
+                    }
+                }
+
+                if (!uploadAborted) {
+                    statusText.innerText = "Synchronization Complete! Assets live.";
+                    setTimeout(() => progressContainer.style.display = 'none', 1500);
+                }
+
+            } catch (err) {
+                console.error("Critical Upload Error:", err);
+                alert(`Upload Halted: ${err.message || err}\n\nTips:\n1. Check your internet connection.\n2. Ensure Firebase Storage rules are set to public.\n3. Try with a single image first.`);
+                statusText.innerText = "Synchronization failed.";
+                progressContainer.style.display = 'none';
+            }
+
+            input.value = '';
+            activeUploadTasks = [];
+        }
+
+        function addVideoLink() {
+            const input = document.getElementById('pVideoLink');
+            const url = input.value.trim();
+            if (!url) return;
+
+            // Basic detection for display preview in CMS
+            const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+
+            currentMediaItems.push({
+                url: url,
+                type: 'video',
+                provider: isYouTube ? 'youtube' : 'direct'
+            });
+
+            updateMediaPreviews();
+            input.value = ''; // Clear
+        }
+
+        function uploadFileToFirebase(file, onProgress) {
+            return new Promise((resolve, reject) => {
+                if (typeof storage === 'undefined') {
+                    reject("Firebase Storage not initialized.");
+                    return;
+                }
+                const storageRef = storage.ref(`products/${activeProject.id}/${Date.now()}_${file.name}`);
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        onProgress(progress);
+                    },
+                    (error) => reject(error),
+                    () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((url) => resolve(url));
+                    }
+                );
+            });
+        }
+
+        function updateMediaPreviews() {
+            const container = document.getElementById('mediaPreviewContainer');
+            container.innerHTML = currentMediaItems.map((item, index) => `
+                <div style="position: relative; width: 85px; height: 85px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); background: #f1f5f9; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                    ${item.type === 'image'
+                    ? `<img src="${resolveMediaUrl(item.url)}" style="width: 100%; height: 100%; object-fit: cover;">`
+                    : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0f172a;"><i data-lucide="play-circle" style="color: white; width: 24px;"></i></div>`}
+                    
+                    <!-- Reordering UI -->
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; justify-content: space-between; padding: 4px;" 
+                         onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+                        
+                        <div style="display: flex; justify-content: space-between;">
+                             <button type="button" onclick="moveMedia(${index}, -1)" style="background: var(--primary); color: white; border: none; border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 10px; font-weight: 800;">←</button>
+                             <button type="button" onclick="removeMedia(${index})" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 10px; font-weight: 800;">X</button>
+                             <button type="button" onclick="moveMedia(${index}, 1)" style="background: var(--primary); color: white; border: none; border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 10px; font-weight: 800;">→</button>
+                        </div>
+                        
+                        <div style="color: white; font-size: 8px; font-weight: 800; text-align: center; text-transform: uppercase; background: rgba(0,0,0,0.5); border-radius: 2px;">
+                            ${index === 0 ? 'COVER' : 'SLIDE ' + (index + 1)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function moveMedia(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < currentMediaItems.length) {
+                const item = currentMediaItems.splice(index, 1)[0];
+                currentMediaItems.splice(newIndex, 0, item);
+                updateMediaPreviews();
+            }
+        }
+
+        function removeMedia(index) {
+            if (confirm("Remove this media item?")) {
+                currentMediaItems.splice(index, 1);
+                updateMediaPreviews();
+            }
+        }
+
+        document.getElementById('productForm').onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editProductId').value;
+
+            if (currentMediaItems.length === 0) {
+                alert("Please upload at least one image or video for the product.");
+                return;
+            }
+
+            // Convert multi-line text to clean array
+            const features = document.getElementById('pSpecs').value
+                .split('\n')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            const product = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('pName').value,
+                category: document.getElementById('pCategory').value,
+                price: document.getElementById('pPrice').value,
+                // Fallback for legacy code
+                image: currentMediaItems[0].url,
+                media: currentMediaItems,
+                description: document.getElementById('pDesc').value,
+                features: features.length > 0 ? features : ['Elite Hardware Solution'],
+                isTopSelling: document.getElementById('pTopSelling').checked
+            };
+
+            let productsArr = [...projectData.products];
+            if (id) {
+                const idx = productsArr.findIndex(x => x.id == id);
+                if (idx !== -1) productsArr[idx] = product;
+            } else {
+                productsArr.push(product);
+            }
+
+            // Save to MySQL via PHP API
+            NexusCore.saveProduct(product).then(res => {
+                if (res.success) {
+                    closeModal('productModal');
+                    alert('Product saved successfully to your server!');
+                    initCMS();
+                } else {
+                    alert("Server Error: " + res.error);
+                }
+            });
+        };
+
+        function editProduct(id) {
+            const p = projectData.products.find(x => x.id == id);
+            if (p) openProductModal(p);
+        }
+
+        async function deleteProduct(id) {
+            if (confirm('Are you sure you want to remove this technical asset?')) {
+                try {
+                    const res = await NexusCore.deleteProduct(id);
+                    if (res.success) {
+                        projectData.products = projectData.products.filter(x => x.id != id);
+                        alert('Product Removed.');
+                        render();
+                    } else {
+                        alert('Error deleting product: ' + res.error);
+                    }
+                } catch (err) {
+                    alert('Network error during deletion.');
+                }
+            }
+        }
+
+        function handleImageUpload(input, previewId, hiddenId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64 = e.target.result;
+                document.getElementById(hiddenId).value = base64;
+                document.getElementById(previewId).innerHTML = `<img src="${base64}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+        function hardResetData() {
+            if (confirm("DANGER: This will delete ALL products you added via this browser and reset to the code version. Continue?")) {
+                localStorage.removeItem(`nexus_data_${activeProject.id}`);
+                location.reload();
+            }
+        }
+
+        // --- LOGIN / AUTH ---
+        const ADMIN_USER = 'admin';
+        const ADMIN_PASS = 'OS CHENNAI@2026';
+
+        function checkAuth() {
+            if (sessionStorage.getItem('cms_auth') === 'true') {
+                document.getElementById('loginOverlay').classList.add('hidden');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUsername').value.trim();
+            const p = document.getElementById('loginPassword').value;
+            if (u === ADMIN_USER && p === ADMIN_PASS) {
+                sessionStorage.setItem('cms_auth', 'true');
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('loginError').classList.remove('show');
+            } else {
+                document.getElementById('loginError').classList.add('show');
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('cms_auth');
+            document.getElementById('loginOverlay').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').classList.remove('show');
+        }
+
+        checkAuth();
+        render();
+    </script>
+</body>
+
+</html>

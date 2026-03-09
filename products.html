@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Product Catalog | OS Chennai Chennai</title>
+    <meta name="description"
+        content="Browse our catalog of authorized HP, Dell, and Lenovo laptops, Epson printers, and enterprise tech solutions. GST billing and bulk pricing available in Chennai.">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body style="padding-top:100px; background-color: var(--bg-soft);">
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="OS Chennai Logo" id="navLogo">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">OS Chennai
+                    <span>Electronics</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html" class="active">Products</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="contact.html" class="btn btn-primary"
+                    style="padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem;">Get a Quote <i
+                        data-lucide="arrow-right" style="width: 14px;"></i></a>
+                <!-- Actions -->
+                <button class="mobile-nav-toggle" id="menuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container section-padding">
+        <div style="text-align:center; margin-bottom: 4rem;" data-aos="fade-down">
+            <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem;">Authorized HP Printer Dealer Chennai
+            </h1>
+            <p style="color: var(--text-soft); font-size: 1.25rem;">Premier <strong>Epson projector Chennai</strong>
+                supplier and authorized enterprise IT hardware catalog.</p>
+        </div>
+
+        <div class="products-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar-sticky">
+                <div class="search-box">
+                    <i data-lucide="search" style="width: 20px;"></i>
+                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="handleFilter()">
+                </div>
+
+                <div class="filter-section">
+                    <h3>Categories</h3>
+                    <div class="category-list" id="categoryFilters">
+                        <button class="cat-filter-btn active" onclick="filterByCategory('all')">
+                            All Products
+                            <i data-lucide="chevron-right" style="width: 16px;"></i>
+                        </button>
+                        <!-- Dynamic Filters -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main>
+                <div class="results-meta">
+                    <span id="resultCount">Showing <strong>0</strong> results</span>
+                    <div
+                        style="display:flex; gap: 1rem; align-items: center; color: var(--text-soft); font-weight: 600;">
+                        <span>Sort by:</span>
+                        <select class="glass"
+                            style="border: none; padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; outline: none; cursor: pointer;">
+                            <option>Relevance</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="featured-grid" id="productContainer"
+                    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                    <!-- Dynamic Products -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1 -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="OS Chennai Logo" id="footerLogo"
+                            style="height: 50px; margin-bottom: 1.5rem;">
+                    </div>
+                    <p>
+                        OS Chennai: Chennai's authorized supplier of enterprise laptops, HP printers, Epson
+                        projectors, and
+                        IT accessories since 2016. Serving 500+ businesses across Tamil Nadu.
+                    </p>
+                    <div class="social-icons" style="margin-top: 1rem;">
+                        <a href="https://instagram.com" target="_blank" class="social-box"><i
+                                data-lucide="instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="social-box"><i
+                                data-lucide="linkedin"></i></a>
+                        <a href="tel:+919940428882" class="social-box"><i data-lucide="phone"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">Get a Quote</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html?cat=laptops">Laptops</a></li>
+                        <li><a href="products.html?cat=printers">Printers</a></li>
+                        <li><a href="products.html?cat=projectors">Projectors</a></li>
+                        <li><a href="products.html?cat=accessories">Accessories</a></li>
+                        <li><a href="contact.html">Bulk / Corporate Orders</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="footer-contact-block" id="footerContactBlock">
+                    <h4 class="footer-title">Contact Us</h4>
+                    <p><i data-lucide="mail"></i> sales@oschennai.com</p>
+                    <p><i data-lucide="phone"></i> +91 9940428882</p>
+                    <p><i data-lucide="map-pin"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil
+                        Nadu</p>
+                    <p><i data-lucide="clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 OS Chennai. All Rights Reserved.</p>
+                <div>
+                    <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a> ·
+                    <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PHP Data Bridge -->
+    <script src="js/data.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        lucide.createIcons();
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Wait for MySQL data from PHP before rendering
+        window.addEventListener('dataLoaded', () => {
+            // Title Fallback
+            if (typeof settings !== 'undefined') {
+                const sName = settings.siteName || settings.site_name || "OS Chennai";
+                const sTag = "Product Catalog";
+                document.title = `${sName} | ${sTag}`;
+                const navLogo = document.getElementById('navLogo');
+                const footerLogo = document.getElementById('footerLogo');
+                if (navLogo && settings.siteLogo) navLogo.src = settings.siteLogo;
+                if (footerLogo && settings.siteLogo) footerLogo.src = settings.siteLogo;
+
+                const footerEmailP = document.querySelector('#footerContactBlock p:nth-child(2)');
+                const footerPhoneP = document.querySelector('#footerContactBlock p:nth-child(3)');
+                const footerAddressP = document.querySelector('#footerContactBlock p:nth-child(4)');
+
+                if (footerEmailP && (settings.contactEmail || settings.contact_email)) {
+                    footerEmailP.innerHTML = `<i data-lucide="mail"></i> ${settings.contactEmail || settings.contact_email}`;
+                }
+                if (footerPhoneP && (settings.contactPhone || settings.contact_phone)) {
+                    footerPhoneP.innerHTML = `<i data-lucide="phone"></i> ${settings.contactPhone || settings.contact_phone}`;
+                }
+                if (footerAddressP && (settings.contactAddress || settings.contact_address)) {
+                    footerAddressP.innerHTML = `<i data-lucide="map-pin"></i> ${settings.contactAddress || settings.contact_address}`;
+                }
+            }
+
+            renderCategoryFilters();
+            handleFilter(); // Initial render
+
+            lucide.createIcons();
+            setTimeout(() => lucide.createIcons(), 500);
+        });
+
+        function renderCategoryFilters() {
+            const filterContainer = document.getElementById('categoryFilters');
+            if (!filterContainer || typeof categories === 'undefined') return;
+
+            filterContainer.innerHTML = `
+                <button class="cat-filter-btn active" onclick="filterByCategory('all', this)">
+                    All Products
+                    <i data-lucide="layers" style="width: 16px;"></i>
+                </button>
+            ` + categories.map(cat => `
+                <button class="cat-filter-btn" data-cat="${cat.id}" onclick="filterByCategory('${cat.id}', this)">
+                    ${cat.name}
+                    <i data-lucide="chevron-right" style="width: 16px;"></i>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function filterByCategory(catId, btn) {
+            currentCategory = catId;
+            document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            handleFilter();
+        }
+
+        function handleFilter() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('productContainer');
+            if (!container || typeof products === 'undefined') return;
+
+            let filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.categoryId === currentCategory || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById('resultCount').innerHTML = `Showing <strong>${filtered.length}</strong> results`;
+
+            container.innerHTML = filtered.map((p, idx) => {
+                const displayImg = p.media && p.media.length > 0 ? p.media[0].url : (p.image || '');
+                const categoryObj = categories.find(c => c.id === p.category);
+                const categoryName = categoryObj ? categoryObj.name : (p.category || 'Hardware');
+
+                return `
+                    <div class="p-card-premium glass" data-aos="fade-up" data-aos-delay="${(idx % 4) * 100}">
+                        <div class="p-img-box">
+                            <img src="${displayImg}" alt="${p.name}" style="object-fit: contain;">
+                        </div>
+                        <span class="p-tag" style="text-transform:uppercase;">${categoryName}</span>
+                        <h3 style="font-size: 1.1rem; margin-top: 0.5rem; font-weight: 800; margin-bottom: 0.5rem;">${p.name}</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${p.description}</p>
+                        <div class="p-price-row" style="margin-bottom: 1rem;">
+                            <span class="p-price" style="font-size: 1.25rem; font-weight: 800;">₹${p.price}</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <a href="product-detail.html?id=${p.id}" class="btn btn-primary" style="width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center;">View Specs  →</a>
+                            <a href="https://wa.me/919940428882?text=${encodeURIComponent(`Hi OS Chennai, I am interested in:
+🛍️ Product: ${p.name}
+💰 Price: ₹${p.price}
+📝 Specs: ${p.description.substring(0, 100)}...
+
+Please share more details.`)}" class="btn" style="background: #25D366; color: white; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center; border: none; text-decoration: none;" target="_blank">📞 WhatsApp</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:5rem; color:var(--text-soft);">No products found matching your search.</div>`;
+            }
+
+            lucide.createIcons();
+        }
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                icon.setAttribute('data-lucide', navLinks.classList.contains('active') ? 'x' : 'menu');
+                lucide.createIcons();
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // WhatsApp Dynamic
+        const waLink = document.getElementById('whatsappLink');
+        if (waLink) {
+            waLink.href = `https://wa.me/919940428882`;
+        }
+
+        // Final Global Icon Pass to catch header/footer
+        lucide.createIcons();
+        setTimeout(() => lucide.createIcons(), 500);
+    </script>
+    <!-- FLOATING BUTTONS -->
+    <div class="floating-controls"
+        style="position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 9999;">
+        <!-- Call Button -->
+        <a href="tel:+919940428882" class="call-float"
+            style="display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round" style="width: 30px; height: 30px;">
+                <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+            </svg>
+        </a>
+
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/919940428882" class="whatsapp-float" target="_blank"
+            style="display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="fill: currentColor;">
+                <path
+                    d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.4 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 445.3c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 365.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 54.1 81.2 54.1 130.5 0 101.7-82.8 184.4-184.6 184.4zm101.4-139c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.1-3.2-5.5-.3-8.5 2.4-11.2 2.5-2.4 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.5 5.6-9.2 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 34.9 2.2 10.6-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+            </svg>
+        </a>
+    </div>
+</body>
+
+</html>
