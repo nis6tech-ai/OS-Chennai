@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary: #8b5cf6; /* Vibrant Purple */
+    --primary: #8b5cf6;
+    /* Vibrant Purple */
     --primary-hover: #7c3aed;
     --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     --primary-light: rgba(139, 92, 246, 0.1);
-    --bg-main: #0b0d17; /* Space Dark */
-    --bg-soft: #161625; /* Card/Section Dark */
+    --bg-main: #0b0d17;
+    /* Space Dark */
+    --bg-soft: #161625;
+    /* Card/Section Dark */
     --text-main: #ffffff;
     --text-soft: #94a3b8;
     --accent: #d946ef;
@@ -158,7 +161,7 @@ body {
 .hero {
     padding: 14rem 0 10rem;
     background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 40%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -487,7 +490,7 @@ body {
     height: 100%;
 }
 
-.p-card-premium > p {
+.p-card-premium>p {
     flex-grow: 1;
 }
 
