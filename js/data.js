@@ -49,7 +49,9 @@ function applyDynamicSettings(settings) {
     if (!settings) return;
 
     function updateTextNodes(node, search, replaceStr) {
-        if (!replaceStr || replaceStr.trim() === '') return;
+        if (replaceStr === undefined || replaceStr === null) return;
+        const replaceVal = String(replaceStr);
+        if (replaceVal.trim() === '') return;
         if (node.nodeType === 3) {
             if (node.nodeValue.includes(search)) {
                 node.nodeValue = node.nodeValue.split(search).join(replaceStr);

@@ -96,8 +96,8 @@
       </div>
       <div class="nav-actions">
         <a href="contact.html" class="btn btn-primary"
-          style="padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem;">Get a Quote <i
-            data-lucide="arrow-right" style="width: 14px;"></i></a>
+          style="padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.85rem;">Get a Quote <i
+            data-lucide="arrow-right" style="width: 16px;"></i></a>
         <!-- Actions -->
         <button class="mobile-nav-toggle" id="menuToggle">
           <i data-lucide="menu"></i>
@@ -116,8 +116,8 @@
               Authorized Enterprise Laptop Supplier in Chennai
             </span>
           </div>
-          <h1 style="font-size: 3.2rem; line-height: 1.2; margin-bottom: 1.5rem;">Leading Laptop Dealer in
-            <br><span>Chennai for Businesses</span>
+          <h1>Leading Laptop Dealer in
+            <span class="highlight">Chennai for Businesses</span>
           </h1>
           <p style="font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin-bottom: 2rem;">
             As a premier <strong>IT hardware supplier in Chennai</strong>, OS Chennai supplies corporate offices,
@@ -125,12 +125,10 @@
             products.
           </p>
           <div class="hero-btns" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="products.html" class="btn btn-primary"
-              style="padding: 0.8rem 1.5rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 8px;">Explore
-              Products <i data-lucide="arrow-right" style="width: 18px;"></i></a>
+            <a href="products.html" class="btn btn-primary">Explore Products <i data-lucide="arrow-right" style="width: 18px;"></i></a>
             <a href="https://wa.me/919940428882?text=Hi OS Chennai, I have a general enquiry about your IT hardware solutions for my business."
               class="btn"
-              style="background: #25D366; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;"
+              style="background: #25D366; color: white; text-decoration: none;"
               target="_blank">💬 Chat on WhatsApp</a>
           </div>
           <div class="trust-strip"
@@ -699,22 +697,21 @@
           displayProducts.forEach((p, idx) => {
             const displayImg = p.media && p.media.length > 0 ? p.media[0].url : (p.image || '');
             featuredContainer.innerHTML += `
-                    <div class="p-card-premium glass" data-aos="fade-up" data-aos-delay="${idx * 150}">
+                    <div class="p-card-premium glass" data-aos="fade-up" data-aos-delay="${idx * 150}" onclick="window.location.href='product-detail.html?id=${p.id}'" style="cursor:pointer;">
                         <div class="p-img-box">
                             <img src="${displayImg}" alt="${p.name}" style="object-fit: contain;">
                         </div>
                         <span class="p-tag" style="text-transform:uppercase;">${p.category}</span>
                         <h3 style="font-size: 1.1rem; margin-top: 0.5rem; font-weight: 800; margin-bottom: 0.5rem;">${p.name}</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${p.description}</p>
+                        <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${p.description || 'No description available.'}</p>
                         <div class="p-price-row" style="margin-bottom: 1rem;">
                             <span class="p-price" style="font-size: 1.25rem; font-weight: 800;">₹${p.price}</span>
                         </div>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <a href="product-detail.html?id=${p.id}" class="btn btn-primary" style="width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center;">View Specs  →</a>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;" onclick="event.stopPropagation()">
                             <a href="https://wa.me/919940428882?text=${encodeURIComponent(`Hi OS Chennai, I am interested in:
 🛍️ Product: ${p.name}
 💰 Price: ${p.price}
-📝 Specs: ${p.description.substring(0, 100)}...
+📝 Specs: ${p.description ? p.description.substring(0, 100) : 'Details on request'}...
 
 Please share more details.`)}" class="btn" style="background: #25D366; color: white; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center; border: none; text-decoration: none;" target="_blank">📞 WhatsApp</a>
                         </div>

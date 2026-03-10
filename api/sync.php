@@ -35,7 +35,7 @@ switch ($action) {
             'settings' => $settings,
             'categories' => $categories,
             'products' => $products
-        ]);
+        ], JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
         break;
 
     case 'save_product':

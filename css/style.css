@@ -3,15 +3,16 @@
 :root {
     --primary: #8b5cf6; /* Vibrant Purple */
     --primary-hover: #7c3aed;
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     --primary-light: rgba(139, 92, 246, 0.1);
-    --bg-main: #0a0a0c; /* Deep Dark */
-    --bg-soft: #16161e; /* Card/Section Dark */
-    --text-main: #f8fafc;
+    --bg-main: #0b0d17; /* Space Dark */
+    --bg-soft: #161625; /* Card/Section Dark */
+    --text-main: #ffffff;
     --text-soft: #94a3b8;
-    --accent: #a855f7;
-    --border: #2d2d39;
-    --glass: rgba(10, 10, 12, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent: #d946ef;
+    --border: rgba(255, 255, 255, 0.1);
+    --glass: rgba(22, 22, 37, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.12);
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
     --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 20px 40px -10px rgb(0 0 0 / 0.7);
@@ -44,8 +45,8 @@ body {
 /* Glassmorphism */
 .glass {
     background: var(--glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-md);
 }
@@ -155,9 +156,10 @@ body {
 
 /* Hero Section - The "Old Design" Elite Look */
 .hero {
-    padding: 12rem 0 8rem;
-    background: radial-gradient(circle at 80% 20%, #1a1a2e 0%, #0a0a0c 60%);
-    min-height: 95vh;
+    padding: 14rem 0 10rem;
+    background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 40%);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     position: relative;
@@ -172,18 +174,19 @@ body {
 }
 
 .hero-text h1 {
-    font-size: clamp(2.5rem, 8vw, 4.8rem);
+    font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1;
     margin: 1.5rem 0 2rem;
+    letter-spacing: -2px;
 }
 
-.hero-text h1 span {
-    color: var(--primary);
-    background: linear-gradient(to right, var(--primary), #60a5fa);
+.hero-text h1 .highlight {
+    background: linear-gradient(to right, #6366f1, #d946ef);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: block;
 }
 
 .hero-text p {
@@ -194,12 +197,14 @@ body {
 }
 
 .badge {
-    background: rgba(139, 92, 246, 0.2);
-    color: var(--primary);
-    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #818cf8;
+    padding: 0.6rem 1.4rem;
     border-radius: 50px;
-    font-weight: 800;
-    font-size: 0.85rem;
+    font-weight: 700;
+    font-size: 0.8rem;
     letter-spacing: 1px;
     text-transform: uppercase;
     display: inline-block;
@@ -223,14 +228,15 @@ body {
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: var(--primary-gradient);
     color: white;
+    border: none;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px -10px var(--primary);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.6);
 }
 
 .btn-glass {
@@ -250,17 +256,19 @@ body {
 }
 
 .image-card {
-    padding: 1.5rem;
-    background: var(--bg-soft);
-    border-radius: 44px;
-    box-shadow: 20px 40px 80px rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
     position: relative;
     z-index: 2;
 }
 
 .image-card img {
     width: 100%;
-    border-radius: 34px;
+    border-radius: 30px;
     display: block;
 }
 
