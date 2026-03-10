@@ -344,8 +344,8 @@ body {
 
 .brand-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4rem 6rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 2rem;
     align-items: center;
     justify-items: center;
     margin-top: 4rem;
@@ -353,17 +353,23 @@ body {
 
 .brand-grid img {
     width: 100%;
-    max-width: 180px;
-    height: 70px;
+    max-width: 140px;
+    height: 80px;
     object-fit: contain;
     transition: var(--transition);
-    padding: 10px;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.05));
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    filter: grayscale(1) brightness(2);
+    opacity: 0.6;
 }
 
 .brand-grid img:hover {
-    transform: scale(1.15) translateY(-5px);
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15));
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-light);
+    filter: grayscale(0) brightness(1);
     opacity: 1;
 }
 
@@ -1348,35 +1354,55 @@ body {
 
 /* Service Coverage */
 .area-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
     justify-content: center;
 }
 
 .area-grid span {
-    background: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--text-soft);
     border: 1px solid var(--border);
     transition: var(--transition);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .area-grid span:hover {
     border-color: var(--primary);
-    color: var(--primary);
+    color: var(--text-main);
+    background: var(--primary-light);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .coverage-box {
-    background: rgba(255, 255, 255, 0.5);
-    padding: 3rem;
-    border-radius: 30px;
+    background: var(--bg-soft);
+    padding: 4rem;
+    border-radius: 40px;
     border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.coverage-box::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    filter: blur(150px);
+    opacity: 0.05;
+    pointer-events: none;
 }
 
 /* Bottom CTA Banner */
@@ -1482,8 +1508,8 @@ body {
 
 /* Footer Improvements */
 .footer {
-    padding: 6rem 0 2rem;
-    background: #f8fafc;
+    padding: 8rem 0 4rem;
+    background: var(--bg-main);
     border-top: 1px solid var(--border);
 }
 

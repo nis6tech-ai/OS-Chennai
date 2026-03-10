@@ -33,7 +33,7 @@
             </div>
             <div class="nav-actions">
                 <a href="contact.html" class="btn btn-primary"
-                    style="padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.85rem;">Get a Quote <i
+                    style="padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.85rem;">Get a Quote<i
                         data-lucide="arrow-right" style="width: 16px;"></i></a>
                 <!-- Actions -->
                 <button class="mobile-nav-toggle" id="menuToggle">
@@ -123,8 +123,8 @@
                                 ${media.map((m, i) => m && m.url ? `
                                     <div class="thumb-box glass ${i === 0 ? 'active' : ''}" onclick="switchMainMedia('${m.url}', '${m.type}', this)" style="width:80px; height:80px; border-radius:15px; border:2px solid ${i === 0 ? 'var(--primary)' : 'transparent'}; overflow:hidden; cursor:pointer; flex-shrink:0; background:rgba(255,255,255,0.02);">
                                         ${m.type === 'image'
-                                    ? `<img src="${m.url}" style="width:100%; height:100%; object-fit:contain; padding: 10px;">`
-                                    : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#0f172a;"><i data-lucide="play" style="color:white; width:24px;"></i></div>`}
+                        ? `<img src="${m.url}" style="width:100%; height:100%; object-fit:contain; padding: 10px;">`
+                        : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#0f172a;"><i data-lucide="play" style="color:white; width:24px;"></i></div>`}
                                     </div>
                                 ` : '').join('')}
                             </div>
@@ -133,10 +133,10 @@
                         <div data-aos="fade-left">
                             <span class="subtitle" style="display:block;margin-bottom:1rem;">
                                 ${(() => {
-                                    const cats = (typeof categories !== 'undefined' ? categories : []);
-                                    const cat = cats.find(c => String(c.id) === String(product.category));
-                                    return cat ? cat.name : (product.category || 'Hardware');
-                                })()}
+                        const cats = (typeof categories !== 'undefined' ? categories : []);
+                        const cat = cats.find(c => String(c.id) === String(product.category));
+                        return cat ? cat.name : (product.category || 'Hardware');
+                    })()}
                             </span>
                             <h1 style="font-size:3.5rem; margin-bottom:1rem; line-height: 1; letter-spacing: -2px;">${product.name}</h1>
                             <div class="highlight" style="font-size:2.8rem;font-weight:800;margin-bottom:2rem; display: inline-block;">₹${product.price}</div>
@@ -219,7 +219,7 @@ Please share more details.`)}" class="btn btn-primary btn-lg" target="_blank" st
 
         function getMediaHTML(url, type) {
             if (!url) return '<div style="color:#94a3b8;">No Media Available</div>';
-            
+
             if (type === 'image') {
                 return `<img src="${url}" style="width:100%; height:100%; object-fit:contain;" id="currentMainMedia" onerror="this.src='assets/logo.png'">`;
             } else {
