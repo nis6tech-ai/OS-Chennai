@@ -97,21 +97,29 @@
                 if (!container) return;
 
                 // --- DYNAMIC SEO ---
-                const sName = (typeof settings !== 'undefined' && (settings.siteName || settings.site_name)) || "OS Chennai";
-                document.title = `${product.name} | ${sName}`;
-                const metaDesc = document.getElementById('metaDescription');
-                if (metaDesc) {
-                    metaDesc.setAttribute('content', `${product.name}: ${product.description ? product.description.substring(0, 160) : 'Check specifications and availability at OS Chennai Chennai.'}`);
-                }
-
                 // Branding
                 if (typeof settings !== 'undefined' && settings.siteLogo) {
                     const navLogo = document.getElementById('navLogo');
                     if (navLogo) navLogo.src = settings.siteLogo;
                 }
 
+                // Safety: Escape backticks for template literals
+                const safeName = (product.name || '').replace(/`/g, '\\`');
+                const safeDesc = (product.description || '').replace(/`/g, '\\`');
+                const safePrice = product.price || 'Contact for Price';
+                const safeCategory = product.category || 'Hardware';
+                const safeFeatures = Array.isArray(product.features) ? product.features.map(f => String(f).replace(/`/g, '\\`')) : [];
+
+                const sName = (typeof settings !== 'undefined' && (settings.siteName || settings.site_name)) || "OS Chennai";
+                document.title = `${safeName} | ${sName}`;
+
                 // --- RENDER CONTENT ---
                 const media = Array.isArray(product.media) && product.media.length > 0 ? product.media : [{ url: product.image || 'assets/logo.png', type: 'image' }];
+
+                // Prepare WhatsApp message separately to avoid nested template drama
+                const waPrice = safePrice === 'Contact for Price' ? '' : ` (Price: ₹${safePrice})`;
+                const waMessage = `Hi OS Chennai, I am interested in:\n🛍️ Product: ${safeName}${waPrice}\n\n📝 Specs: ${safeDesc.substring(0, 150)}...\n\nPlease share more details.`;
+                const waLink = `https://wa.me/${window.settings.whatsappNumber || '919940428882'}?text=${encodeURIComponent(waMessage)}`;
 
                 container.innerHTML = `
                     <div class="product-detail-grid">
@@ -134,28 +142,28 @@
                             <span class="subtitle" style="display:block;margin-bottom:1rem;">
                                 ${(() => {
                         const cats = (typeof categories !== 'undefined' ? categories : []);
-                        const cat = cats.find(c => String(c.id) === String(product.category));
-                        return cat ? cat.name : (product.category || 'Hardware');
+                        const cat = cats.find(c => String(c.id) === String(safeCategory));
+                        return cat ? cat.name : safeCategory;
                     })()}
                             </span>
-                            <h1 style="font-size:3.5rem; margin-bottom:1rem; line-height: 1; letter-spacing: -2px;">${product.name}</h1>
-                            <div class="highlight" style="font-size:2.8rem;font-weight:800;margin-bottom:2rem; display: inline-block;">₹${product.price}</div>
+                            <h1 style="font-size:3.5rem; margin-bottom:1rem; line-height: 1; letter-spacing: -2px;">${safeName}</h1>
+                            <div class="highlight" style="font-size:2.8rem;font-weight:800;margin-bottom:2rem; display: inline-block;">₹${safePrice}</div>
                             
                             <div style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border);">
                                 <h4 style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--text-soft); margin-bottom: 1rem; font-weight: 800;">Product Overview</h4>
                                 <p style="font-size:1.15rem; color:var(--text-soft); line-height:1.7;">
-                                    ${product.description || 'No detailed description provided.'}
+                                    ${safeDesc || 'No detailed description provided.'}
                                 </p>
                             </div>
                             
-                            <div style="margin-bottom: 2.5rem;">
+                            <div style="margin-bottom: 3rem;">
                                 <h4 style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--text-soft); margin-bottom: 1.5rem; font-weight: 800;">Technical Specifications</h4>
                                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem;">
-                                    ${Array.isArray(product.features) && product.features.length > 0 ?
-                        product.features.map(f => `
-                                            <div class="glass" style="padding:1rem; border-radius:14px; display:flex; align-items:center; gap:0.75rem; font-weight:600; font-size:0.95rem; border: 1px solid var(--border);">
-                                                <i data-lucide="check-circle-2" style="width:18px; color:var(--primary);"></i>
-                                                <span>${f}</span>
+                                    ${safeFeatures.length > 0 ?
+                        safeFeatures.map(f => `
+                                            <div class="glass" style="padding:1.2rem; border-radius:14px; display:flex; align-items:flex-start; gap:0.85rem; font-weight:600; font-size:0.95rem; border: 1px solid var(--border);">
+                                                <i data-lucide="check-circle-2" style="width:20px; height:20px; color:var(--primary); flex-shrink:0; margin-top:2px;"></i>
+                                                <span style="line-height: 1.4;">${f}</span>
                                             </div>
                                         `).join('') :
                         `<p style="color: var(--text-soft);">Full specifications available on request.</p>`
@@ -164,12 +172,7 @@
                             </div>
 
                             <div style="display:flex; flex-wrap: wrap; gap:1rem; padding-top: 1rem;">
-                                <a href="https://wa.me/919940428882?text=${encodeURIComponent(`Hi OS Chennai, I am interested in:
-🛍️ Product: ${product.name}
-💰 Price: ${product.price}
-📝 Specs: ${product.description ? product.description.substring(0, 150) : "Details on request"}
-
-Please share more details.`)}" class="btn btn-primary btn-lg" target="_blank" style="padding: 1rem 2rem; border-radius: 12px;">
+                                <a href="${waLink}" class="btn btn-primary btn-lg" target="_blank" style="padding: 1rem 2rem; border-radius: 12px;">
                                     <i data-lucide="message-circle"></i> Chat for Best Price
                                 </a>
                                 <a href="contact.html" class="btn btn-glass btn-lg" style="padding: 1rem 2rem; border-radius: 12px; border: 1px solid var(--border);">Get Official Quote</a>

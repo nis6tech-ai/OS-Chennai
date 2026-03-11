@@ -8,15 +8,8 @@ const NexusCore = {
 
     init: async function (clientId) {
         try {
-            const resp = await fetch(`${this.apiUrl}?action=get_data`);
+            const resp = await fetch(`${this.apiUrl}?action=get_data&project=os-chennai`);
             const data = await resp.json();
-            
-            // Override identity for this clone site
-            if (data && data.settings) {
-                data.settings.siteName = "OS Chennai";
-                data.settings.siteTagline = "Certified IT Hardware Dealer";
-            }
-            
             return data;
         } catch (e) {
             console.error("Initialization Failed:", e);
@@ -45,7 +38,7 @@ const NexusCore = {
 
     save: async function (clientId, data) {
         try {
-            const resp = await fetch(`${this.apiUrl}?action=save_settings`, {
+            const resp = await fetch(`${this.apiUrl}?action=save_settings&project=os-chennai`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)

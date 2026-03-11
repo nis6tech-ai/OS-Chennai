@@ -11,7 +11,7 @@ window.liveData = {
 
 async function loadLiveSiteData() {
     try {
-        const response = await fetch('/api/sync.php?action=get_data');
+        const response = await fetch('/api/sync.php?action=get_data&project=os-chennai');
         const data = await response.json();
 
         if (data.error) {
@@ -20,12 +20,6 @@ async function loadLiveSiteData() {
         }
 
         window.liveData = data;
-
-        // Override identity for this clone site
-        if (data && data.settings) {
-            data.settings.siteName = "OS Chennai";
-            data.settings.siteTagline = "Certified IT Hardware Dealer";
-        }
 
         // Update global shortcuts
         window.products = data.products || [];

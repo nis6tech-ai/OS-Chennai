@@ -492,6 +492,30 @@ body {
 
 .p-card-premium>p {
     flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.p-card-premium h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2; /* Standard property */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3rem; /* Fixed height for title area */
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.p-price-row, .p-price {
+    margin-top: auto; /* Force to bottom */
+}
+
+.p-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
 }
 
 .p-card-premium:hover {
