@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -183,10 +184,10 @@
                     </p>
                     <div class="social-icons" style="margin-top: 1rem;">
                         <a href="https://instagram.com" target="_blank" class="social-box"><i
-                                data-lucide="instagram"></i></a>
+                                class="fa-brands fa-instagram"></i></a>
                         <a href="https://linkedin.com" target="_blank" class="social-box"><i
-                                data-lucide="linkedin"></i></a>
-                        <a href="tel:+919940428882" class="social-box"><i data-lucide="phone"></i></a>
+                                class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="tel:+919940428882" class="social-box"><i class="fa-solid fa-phone"></i></a>
                     </div>
                 </div>
 
@@ -199,6 +200,7 @@
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="contact.html">Get a Quote</a></li>
+                        <li><a href="blog.html">Blog</a></li>
                     </ul>
                 </div>
 
@@ -217,11 +219,11 @@
                 <!-- Column 4 -->
                 <div class="footer-contact-block">
                     <h4 class="footer-title">Contact Us</h4>
-                    <p><i data-lucide="mail"></i> sales@oschennai.com</p>
-                    <p><i data-lucide="phone"></i> +91 9940428882</p>
-                    <p><i data-lucide="map-pin"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil
+                    <p><i class="fa-solid fa-envelope"></i> sales@oschennai.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 9940428882</p>
+                    <p><i class="fa-solid fa-location-dot"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil
                         Nadu</p>
-                    <p><i data-lucide="clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
+                    <p><i class="fa-solid fa-clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
                 </div>
             </div>
 
@@ -253,20 +255,6 @@
                 const footerLogo = document.getElementById('footerLogo');
                 if (navLogo && settings.siteLogo) navLogo.src = settings.siteLogo;
                 if (footerLogo && settings.siteLogo) footerLogo.src = settings.siteLogo;
-
-                const footerEmailP = document.querySelector('.footer-contact-block p:nth-child(2)');
-                const footerPhoneP = document.querySelector('.footer-contact-block p:nth-child(3)');
-                const footerAddressP = document.querySelector('.footer-contact-block p:nth-child(4)');
-
-                if (footerEmailP && (settings.contactEmail || settings.contact_email)) {
-                    footerEmailP.innerHTML = `<i data-lucide="mail"></i> ${settings.contactEmail || settings.contact_email}`;
-                }
-                if (footerPhoneP && (settings.contactPhone || settings.contact_phone)) {
-                    footerPhoneP.innerHTML = `<i data-lucide="phone"></i> ${settings.contactPhone || settings.contact_phone}`;
-                }
-                if (footerAddressP && (settings.contactAddress || settings.contact_address)) {
-                    footerAddressP.innerHTML = `<i data-lucide="map-pin"></i> ${settings.contactAddress || settings.contact_address}`;
-                }
             }
 
             // 2. WhatsApp Update
@@ -311,7 +299,7 @@
         </a>
 
         <!-- WhatsApp Button -->
-        <a href="https://wa.me/919940428882" class="whatsapp-float" target="_blank"
+        <a href="https://wa.me/919940428882?text=Hi OS Chennai, I have a general enquiry about your IT hardware solutions for my business." class="whatsapp-float" target="_blank"
             style="display: flex; align-items: center; justify-content: center;">
             <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="fill: currentColor;">
                 <path

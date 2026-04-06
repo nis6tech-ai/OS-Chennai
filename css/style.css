@@ -45,6 +45,23 @@ body {
     position: relative;
 }
 
+/* Ensure inputs are visible on dark background - Force White Text */
+input, textarea, select, input[type="text"], input[type="email"], input[type="tel"] {
+    color: #ffffff !important;
+    background-color: transparent;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Ensure placeholder visibility */
+::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+::-moz-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+:-ms-input-placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+::placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+
+input:focus, textarea:focus {
+    color: #ffffff !important;
+}
+
 /* Glassmorphism */
 .glass {
     background: var(--glass);
@@ -52,6 +69,7 @@ body {
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-md);
+    color: #ffffff;
 }
 
 .container {
@@ -243,15 +261,18 @@ body {
 }
 
 .btn-glass {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
     backdrop-filter: blur(10px);
+    color: #e9d5ff; /* Soft purple-white */
 }
 
 .btn-glass:hover {
-    background: white;
-    border-color: white;
+    background: var(--primary);
+    border-color: var(--primary);
     transform: translateY(-3px);
+    color: white;
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
 }
 
 .hero-image-wrapper {
@@ -356,24 +377,24 @@ body {
 
 .brand-grid img {
     width: 100%;
-    max-width: 140px;
-    height: 80px;
+    max-width: 160px; /* Increased slightly */
+    height: 100px; /* Increased slightly */
     object-fit: contain;
     transition: var(--transition);
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    filter: grayscale(1) brightness(2);
-    opacity: 0.6;
+    padding: 0.6rem; /* Reduced padding to make logo appear larger */
+    background: #ffffff; /* Pure white background for logos */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15); /* Soft white glow */
+    filter: none; /* Show original logo colors */
+    opacity: 1;
 }
 
 .brand-grid img:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--primary-light);
-    filter: grayscale(0) brightness(1);
-    opacity: 1;
+    transform: translateY(-8px) scale(1.08);
+    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+    border-color: var(--primary);
 }
 
 @media (max-width: 1024px) {
@@ -498,17 +519,21 @@ body {
 .p-card-premium h3 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2; /* Standard property */
+    line-clamp: 2;
+    /* Standard property */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 3rem; /* Fixed height for title area */
+    min-height: 3rem;
+    /* Fixed height for title area */
     margin: 0.5rem 0;
     font-size: 1.1rem;
     font-weight: 800;
 }
 
-.p-price-row, .p-price {
-    margin-top: auto; /* Force to bottom */
+.p-price-row,
+.p-price {
+    margin-top: auto;
+    /* Force to bottom */
 }
 
 .p-price-row {
@@ -877,14 +902,43 @@ body {
 
 .social-box i,
 .social-box svg {
-    width: 22px !important;
-    height: 22px !important;
-    stroke-width: 2px;
+    width: auto !important;
+    height: auto !important;
+    font-size: 1.25rem;
     color: #ffffff !important;
 }
 
-/* Search Bar - Modern Pill Design */
-.search-trigger {
+.fa-brands {
+    font-weight: 400 !important;
+}
+
+#sortSelect {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    color: var(--text-main);
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+#sortSelect:hover {
+    border-color: var(--primary);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+#sortSelect option {
+    background: var(--bg-soft);
+    color: white;
+}.search-trigger {
     background: var(--bg-soft);
     border: 1px solid var(--border);
     padding: 0.75rem 1.5rem;
@@ -1023,14 +1077,16 @@ body {
 
 .search-box input {
     width: 100%;
-    padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+    padding: 1.1rem 1.5rem 1.1rem 3.5rem;
     border-radius: 16px;
     border: 1px solid var(--border);
-    background: white;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
     font-size: 1rem;
     outline: none;
     transition: var(--transition);
     font-family: inherit;
+    backdrop-filter: blur(10px);
 }
 
 .search-box input:focus {
@@ -1055,8 +1111,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.1rem 1.5rem;
-    background: white;
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     font-weight: 700;
     color: var(--text-soft);
@@ -1065,19 +1121,21 @@ body {
     width: 100%;
     cursor: pointer;
     font-family: inherit;
+    backdrop-filter: blur(10px);
 }
 
 .cat-filter-btn:hover {
-    background: var(--bg-soft);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--text-main);
-    border-color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
 }
 
 .cat-filter-btn.active {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
-    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);
 }
 
 .results-meta {
@@ -1149,9 +1207,9 @@ body {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 80%;
+        width: 100%;
         height: 100vh;
-        background: white;
+        background: var(--bg-main);
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -1159,6 +1217,7 @@ body {
         transition: var(--transition);
         z-index: 2000;
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        border-left: 1px solid var(--border);
     }
 
     .nav-links.active {
@@ -1177,7 +1236,8 @@ body {
     }
 
     .brand-grid img {
-        height: 40px;
+        height: 80px;
+        max-width: 130px;
     }
 
     .test-card,

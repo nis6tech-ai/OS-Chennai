@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OS Chennai CMS | Admin Control</title>
+    <title>OS Chennai CMS | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -522,7 +523,7 @@
                 </svg>
                 <span>Invalid username or password</span>
             </div>
-            <form onsubmit="handleLogin(event)">
+            <form id="loginForm">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" id="loginUsername" class="form-control" placeholder="Enter username"
@@ -546,7 +547,7 @@
         <div class="client-info">
             <label>Selected Portfolio</label>
             <div class="client-selector" id="clientDisplay" onclick="openClientSwitcher()">
-                <span id="activeProjectName">OS Chennai Electronics</span>
+                <span id="activeProjectName">OS Chennai</span>
                 <i data-lucide="chevrons-up-down" style="width: 16px;"></i>
             </div>
         </div>
@@ -574,7 +575,7 @@
     <main class="main">
         <header class="header">
             <h1 id="tabTitle">Dashboard</h1>
-            <div class="actions" id="headerActions"></div>
+            <div class="actions" id="headerActions" style="display: flex; gap: 1rem;"></div>
         </header>
 
         <div class="content" id="mainContent"></div>
@@ -591,14 +592,15 @@
                     <input type="text" id="pName" class="form-control" required placeholder="e.g. MacBook Air">
                 </div>
                 <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div>
-                        <label style="display: flex; justify-content: space-between;">
-                            <span>Category</span>
-                            <a href="#" onclick="openCategoryModal()"
-                                style="color: var(--primary); text-decoration: none; font-size: 0.8rem;">+ New
-                                Category</a>
-                        </label>
-                        <select id="pCategory" class="form-control" required></select>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <select id="pCategory" class="form-control" style="flex: 1;" required></select>
+                            <button type="button" class="btn btn-primary btn-icon" onclick="openCategoryModal()"
+                                title="Quick Add Category">
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <label>Market Price (₹)</label>
@@ -702,45 +704,50 @@
         </div>
     </div>
 
-    <!-- Add Client Modal -->
-    <div class="modal" id="addClientModal">
-        <div class="modal-content">
-            <h2>Add New Website Project</h2>
-            <form id="clientForm" style="margin-top: 2rem;">
-                <div class="form-group">
-                    <label>Website Name</label>
-                    <input type="text" id="cName" class="form-control" required placeholder="e.g. My Next Client">
-                </div>
-                <div class="form-group">
-                    <label>Public Domain</label>
-                    <input type="text" id="cDomain" class="form-control" placeholder="e.g. client-site.com">
-                </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
-                    <button type="button" class="btn btn-ghost" onclick="closeModal('addClientModal')">Back</button>
-                    <button type="submit" class="btn btn-primary">Create Project</button>
-                </div>
-            </form>
+    <!-- Category Management Modal -->
+    <div class="modal" id="categoryManagementModal">
+        <div class="modal-content" style="width: 700px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2>Category Management</h2>
+                <button class="btn btn-primary" onclick="openCategoryModal()"><i data-lucide="plus"></i> Add
+                    New</button>
+            </div>
+            <div class="card" style="max-height: 400px; overflow-y: auto; padding: 0;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: #f8fafc; position: sticky; top: 0; z-index: 10;">
+                        <tr>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid var(--border);">Name
+                            </th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid var(--border);">Slug
+                                (Internal ID)</th>
+                            <th style="padding: 1rem; text-align: right; border-bottom: 1px solid var(--border);">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoryTableBody">
+                        <!-- Categories injected here -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                <button class="btn btn-ghost" onclick="closeModal('categoryManagementModal')">Close</button>
+            </div>
         </div>
     </div>
 
     <!-- Add Category Modal -->
-    <div class="modal" id="categoryModal">
+    <div class="modal" id="categoryModal" style="z-index: 2000;">
         <div class="modal-content" style="width: 400px;">
             <h2 style="margin-bottom: 2rem;">Add New Category</h2>
             <form id="categoryForm">
                 <div class="form-group">
-                    <label>Category ID</label>
-                    <input type="text" id="catId" class="form-control" required placeholder="e.g. servers">
-                    <small style="color:var(--text-soft); font-size:0.75rem;">Used internally. No spaces.</small>
-                </div>
-                <div class="form-group">
                     <label>Category Name</label>
-                    <input type="text" id="catName" class="form-control" required placeholder="e.g. Server Systems">
+                    <input type="text" id="catName" class="form-control" required placeholder="e.g. Business Laptops">
+                    <small style="color:var(--text-soft); font-size:0.75rem;">This will appear in product
+                        filters.</small>
                 </div>
-                <div class="form-group">
-                    <label>Category Image URL</label>
-                    <input type="text" id="catImage" class="form-control" placeholder="https://..." required>
-                </div>
+                <!-- Hidden ID that we'll generate -->
+                <input type="hidden" id="catId">
                 <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
                     <button type="button" class="btn btn-ghost" onclick="closeModal('categoryModal')">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Category</button>
@@ -766,7 +773,7 @@
         // Initialize CMS Data from PHP
         async function initCMS() {
             try {
-                const data = await NexusCore.init('OS CHENNAI');
+                const data = await NexusCore.init('nutpa');
                 if (!data || data.error) {
                     const errMsg = data ? data.error : "Database settings in api/connect.php are incorrect or server is unreachable.";
                     document.getElementById('mainContent').innerHTML = `
@@ -824,14 +831,17 @@
 
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        document.getElementById('clientForm').onsubmit = (e) => {
-            e.preventDefault();
-            const nc = NexusCore.addClient(document.getElementById('cName').value, document.getElementById('cDomain').value);
-            // Provision the new client with the template
-            NexusCore.save(nc.id, window.initialData);
-            switchProject(nc.id);
-            closeModal('addClientModal');
-        };
+        const clientForm = document.getElementById('clientForm');
+        if (clientForm) {
+            clientForm.onsubmit = (e) => {
+                e.preventDefault();
+                const nc = NexusCore.addClient(document.getElementById('cName').value, document.getElementById('cDomain').value);
+                // Provision the new client with the template
+                NexusCore.save(nc.id, window.initialData);
+                switchProject(nc.id);
+                closeModal('addClientModal');
+            };
+        }
 
         function switchTab(el, tab) {
             currentTab = tab;
@@ -872,8 +882,11 @@
                         </div>
                     `;
                 } else if (currentTab === 'inventory') {
-                    title.innerText = 'Product Management';
-                    actions.innerHTML = `<button class="btn btn-primary" onclick="openProductModal()"><i data-lucide="plus"></i> Add Product</button>`;
+                    title.innerText = 'Product Inventory';
+                    actions.innerHTML = `
+                        <button class="btn btn-ghost" onclick="openCategoryManagementModal()"><i data-lucide="layers"></i> Manage Categories</button>
+                        <button class="btn btn-primary" onclick="openProductModal()"><i data-lucide="plus"></i> Add Product</button>
+                    `;
                     container.innerHTML = `
                         <div class="card">
                             <table>
@@ -941,7 +954,12 @@
                     `;
                 } else if (currentTab === 'settings') {
                     title.innerText = 'Global Configurations';
-                    const s = projectData.settings || {};
+                    let s = projectData.settings || {};
+                    if (typeof s.social_links === 'string') {
+                        try { s.socialLinks = JSON.parse(s.social_links); } catch (e) { s.socialLinks = {}; }
+                    } else if (s.social_links) {
+                        s.socialLinks = s.social_links;
+                    }
                     container.innerHTML = `
                         <div class="card" style="padding: 3rem; max-width: 800px;">
                             <form id="settingsForm">
@@ -953,18 +971,36 @@
                                     <label>Marketing Tagline</label>
                                     <input type="text" id="sTagline" class="form-control" value="${s.siteTagline || s.site_tagline || ''}">
                                 </div>
-                                <div class="form-group">
-                                    <label>Site Navigation Logo</label>
-                                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; background: var(--main-bg); padding: 1rem; border-radius: 12px; border: 1px dashed var(--border);">
-                                        <div id="sLogoPreview" style="width: 80px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0;">
-                                            ${(s.siteLogo || s.site_logo) ? `<img src="${resolveMediaUrl(s.siteLogo || s.site_logo)}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i data-lucide="image" style="color: #94a3b8;"></i>`}
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                                    <div class="form-group">
+                                        <label>Site Navigation Logo</label>
+                                        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; background: var(--main-bg); padding: 1rem; border-radius: 12px; border: 1px dashed var(--border);">
+                                            <div id="sLogoPreview" style="width: 80px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0;">
+                                                ${(s.siteLogo || s.site_logo) ? `<img src="${resolveMediaUrl(s.siteLogo || s.site_logo)}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i data-lucide="image" style="color: #94a3b8;"></i>`}
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <input type="file" id="sLogoUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'sLogoPreview', 'sLogo')">
+                                                <button type="button" class="btn btn-ghost" onclick="document.getElementById('sLogoUpload').click()" style="width: 100%; justify-content: center;">
+                                                    <i data-lucide="camera"></i> Change Logo
+                                                </button>
+                                                <input type="hidden" id="sLogo" value="${s.siteLogo || s.site_logo || ''}">
+                                            </div>
                                         </div>
-                                        <div style="flex: 1;">
-                                            <input type="file" id="sLogoUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'sLogoPreview', 'sLogo')">
-                                            <button type="button" class="btn btn-ghost" onclick="document.getElementById('sLogoUpload').click()" style="width: 100%; justify-content: center;">
-                                                <i data-lucide="camera"></i> Change Logo
-                                            </button>
-                                            <input type="hidden" id="sLogo" value="${s.siteLogo || s.site_logo || ''}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Hero Banner Image (Big Top Image)</label>
+                                        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; background: var(--main-bg); padding: 1rem; border-radius: 12px; border: 1px dashed var(--border);">
+                                            <div id="sHeroPreview" style="width: 80px; height: 50px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0;">
+                                                ${(s.heroImage || s.hero_image) ? `<img src="${resolveMediaUrl(s.heroImage || s.hero_image)}" style="width: 100%; height: 100%; object-fit: contain;">` : `<i data-lucide="image" style="color: #94a3b8;"></i>`}
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <input type="file" id="sHeroUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'sHeroPreview', 'sHero')">
+                                                <button type="button" class="btn btn-ghost" onclick="document.getElementById('sHeroUpload').click()" style="width: 100%; justify-content: center;">
+                                                    <i data-lucide="camera"></i> Change Hero Image
+                                                </button>
+                                                <input type="hidden" id="sHero" value="${s.heroImage || s.hero_image || ''}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -987,6 +1023,16 @@
                                     <label>Physical Address / Office</label>
                                     <input type="text" id="sAddress" class="form-control" value="${s.contactAddress || s.contact_address || ''}">
                                 </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                                    <div class="form-group">
+                                        <label><i class="fa-brands fa-instagram" style="width:14px;vertical-align:middle;"></i> Instagram URL</label>
+                                        <input type="text" id="sInsta" class="form-control" value="${(s.socialLinks && s.socialLinks.instagram) || ''}" placeholder="https://instagram.com/your-profile">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><i class="fa-brands fa-linkedin-in" style="width:14px;vertical-align:middle;"></i> LinkedIn URL</label>
+                                        <input type="text" id="sLinkedin" class="form-control" value="${(s.socialLinks && s.socialLinks.linkedin) || ''}" placeholder="https://linkedin.com/in/your-profile">
+                                    </div>
+                                </div>
                                 <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
                                     <button type="submit" class="btn btn-primary">Sync All Modifications</button>
                                 </div>
@@ -1006,10 +1052,15 @@
                             siteName: document.getElementById('sName').value,
                             siteTagline: document.getElementById('sTagline').value,
                             siteLogo: document.getElementById('sLogo').value,
+                            heroImage: document.getElementById('sHero').value,
                             contactEmail: document.getElementById('sEmail').value,
                             whatsappNumber: document.getElementById('sWhatsapp').value,
                             contactPhone: document.getElementById('sPhone').value,
-                            contactAddress: document.getElementById('sAddress').value
+                            contactAddress: document.getElementById('sAddress').value,
+                            socialLinks: {
+                                instagram: document.getElementById('sInsta').value,
+                                linkedin: document.getElementById('sLinkedin').value
+                            }
                         };
                         projectData.settings = updated;
                         NexusCore.save(activeProject.id, projectData).then(res => {
@@ -1029,6 +1080,39 @@
             }
         }
 
+        function openCategoryManagementModal() {
+            const body = document.getElementById('categoryTableBody');
+            body.innerHTML = projectData.categories.map(c => `
+                <tr>
+                    <td style="padding: 1rem; border-bottom: 1px solid var(--border); font-weight: 700;">${c.name}</td>
+                    <td style="padding: 1rem; border-bottom: 1px solid var(--border);"><code>${c.id}</code></td>
+                    <td style="padding: 1rem; border-bottom: 1px solid var(--border); text-align: right;">
+                        <button class="btn btn-danger-ghost btn-icon" onclick="deleteCategory('${c.id}')">
+                            <i data-lucide="trash-2" style="width: 16px;"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            if (projectData.categories.length === 0) {
+                body.innerHTML = '<tr><td colspan="3" style="padding: 2rem; text-align: center; color: var(--text-soft);">No categories yet.</td></tr>';
+            }
+            document.getElementById('categoryManagementModal').classList.add('active');
+            lucide.createIcons();
+        }
+
+        async function deleteCategory(id) {
+            if (!confirm(`Are you sure you want to delete this category? This will NOT delete products, but they will be un-categorized.`)) return;
+            const res = await fetch(`/api/sync.php?action=delete_category&id=${encodeURIComponent(id)}`);
+            const result = await res.json();
+            if (result.success) {
+                projectData.categories = projectData.categories.filter(c => c.id !== id);
+                openCategoryManagementModal();
+                if (currentTab === 'inventory') render();
+            } else {
+                alert("Delete failed: " + result.error);
+            }
+        }
+
         // CRUD Logic
         function openCategoryModal() {
             document.getElementById('categoryForm').reset();
@@ -1037,9 +1121,10 @@
 
         document.getElementById('categoryForm').onsubmit = async (e) => {
             e.preventDefault();
-            const id = document.getElementById('catId').value.toLowerCase().replace(/\s+/g, '-').trim();
             const name = document.getElementById('catName').value.trim();
-            const image = document.getElementById('catImage').value.trim();
+            // Auto-generate ID from name: lowercase, replace spaces/special chars with hyphens
+            const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            const image = "";
 
             if (!id || !name) return;
 
@@ -1266,53 +1351,56 @@
             }
         }
 
-        document.getElementById('productForm').onsubmit = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('editProductId').value;
+        const productForm = document.getElementById('productForm');
+        if (productForm) {
+            productForm.onsubmit = (e) => {
+                e.preventDefault();
+                const id = document.getElementById('editProductId').value;
 
-            if (currentMediaItems.length === 0) {
-                alert("Please upload at least one image or video for the product.");
-                return;
-            }
-
-            // Convert multi-line text to clean array
-            const features = document.getElementById('pSpecs').value
-                .split('\n')
-                .map(s => s.trim())
-                .filter(s => s.length > 0);
-
-            const product = {
-                id: id ? parseInt(id) : Date.now(),
-                name: document.getElementById('pName').value,
-                category: document.getElementById('pCategory').value,
-                price: document.getElementById('pPrice').value,
-                // Fallback for legacy code
-                image: currentMediaItems[0].url,
-                media: currentMediaItems,
-                description: document.getElementById('pDesc').value,
-                features: features.length > 0 ? features : ['Elite Hardware Solution'],
-                isTopSelling: document.getElementById('pTopSelling').checked
-            };
-
-            let productsArr = [...projectData.products];
-            if (id) {
-                const idx = productsArr.findIndex(x => x.id == id);
-                if (idx !== -1) productsArr[idx] = product;
-            } else {
-                productsArr.push(product);
-            }
-
-            // Save to MySQL via PHP API
-            NexusCore.saveProduct(product).then(res => {
-                if (res.success) {
-                    closeModal('productModal');
-                    alert('Product saved successfully to your server!');
-                    initCMS();
-                } else {
-                    alert("Server Error: " + res.error);
+                if (currentMediaItems.length === 0) {
+                    alert("Please upload at least one image or video for the product.");
+                    return;
                 }
-            });
-        };
+
+                // Convert multi-line text to clean array
+                const features = document.getElementById('pSpecs').value
+                    .split('\n')
+                    .map(s => s.trim())
+                    .filter(s => s.length > 0);
+
+                const product = {
+                    id: id ? parseInt(id) : Date.now(),
+                    name: document.getElementById('pName').value,
+                    category: document.getElementById('pCategory').value,
+                    price: document.getElementById('pPrice').value,
+                    // Fallback for legacy code
+                    image: currentMediaItems[0].url,
+                    media: currentMediaItems,
+                    description: document.getElementById('pDesc').value,
+                    features: features.length > 0 ? features : ['Elite Hardware Solution'],
+                    isTopSelling: document.getElementById('pTopSelling').checked
+                };
+
+                let productsArr = [...projectData.products];
+                if (id) {
+                    const idx = productsArr.findIndex(x => x.id == id);
+                    if (idx !== -1) productsArr[idx] = product;
+                } else {
+                    productsArr.push(product);
+                }
+
+                // Save to MySQL via PHP API
+                NexusCore.saveProduct(product).then(res => {
+                    if (res.success) {
+                        closeModal('productModal');
+                        alert('Product saved successfully to your server!');
+                        initCMS();
+                    } else {
+                        alert("Server Error: " + res.error);
+                    }
+                });
+            };
+        }
 
         function editProduct(id) {
             const p = projectData.products.find(x => x.id == id);
@@ -1336,17 +1424,34 @@
             }
         }
 
-        function handleImageUpload(input, previewId, hiddenId) {
+        async function handleImageUpload(input, previewId, hiddenId) {
             const file = input.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const base64 = e.target.result;
-                document.getElementById(hiddenId).value = base64;
-                document.getElementById(previewId).innerHTML = `<img src="${base64}" style="width: 100%; height: 100%; object-fit: cover;">`;
-            };
-            reader.readAsDataURL(file);
+            const previewElem = document.getElementById(previewId);
+            // Show loading placeholder
+            previewElem.innerHTML = `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #94a3b8; font-weight: 800; background: #eff6ff;">Uploading...</div>`;
+
+            try {
+                const result = await NexusCore.uploadFile(file);
+                if (result.error) {
+                    alert("Image Upload Failed: " + result.error);
+                    previewElem.innerHTML = `<i data-lucide="image" style="color: #94a3b8;"></i>`;
+                    lucide.createIcons();
+                    return;
+                }
+
+                // File successfully uploaded to server
+                const url = result.url;
+                document.getElementById(hiddenId).value = url;
+                previewElem.innerHTML = `<img src="${resolveMediaUrl(url)}" style="width: 100%; height: 100%; object-fit: contain;">`;
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Critical Upload Error:", err);
+                alert("Upload process halted. Please check network connection.");
+                previewElem.innerHTML = `<i data-lucide="image" style="color: #94a3b8;"></i>`;
+                lucide.createIcons();
+            }
         }
         function hardResetData() {
             if (confirm("DANGER: This will delete ALL products you added via this browser and reset to the code version. Continue?")) {
@@ -1357,7 +1462,7 @@
 
         // --- LOGIN / AUTH ---
         const ADMIN_USER = 'admin';
-        const ADMIN_PASS = 'OS CHENNAI@2026';
+        const ADMIN_PASS = 'nutpa@2026';
 
         function checkAuth() {
             if (sessionStorage.getItem('cms_auth') === 'true') {
@@ -1377,6 +1482,11 @@
                 document.getElementById('loginError').classList.add('show');
                 document.getElementById('loginPassword').value = '';
             }
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLogin);
         }
 
         function handleLogout() {

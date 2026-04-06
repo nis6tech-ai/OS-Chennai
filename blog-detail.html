@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | OS Chennai</title>
+    <meta name="description" content="Read the latest news and updates from OS Chennai.">
+    <meta name="keywords" content="blog, news, OS Chennai, updates, electronics, IT supplier, laptops">
+    <meta name="author" content="OS Chennai">
+    <link rel="canonical" href="https://www.oschennai.com">
+
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body style="padding-top:100px;">
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="OS Chennai Logo" id="navLogo">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">OS Chennai
+                    <span>Electronics</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="contact.html" class="btn btn-primary"
+                    style="padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem;">Get a Quote <i
+                        data-lucide="arrow-right" style="width: 14px;"></i></a>
+                <button class="mobile-nav-toggle" id="menuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 4rem 1rem;">
+        <div class="product-grid" style="grid-template-columns: 1fr;">
+            <!-- Left: Blog Image -->
+            <div class="product-gallery">
+                <div class="main-image-box">
+                    <img id="blogImage" src="" alt="Blog Image">
+                </div>
+            </div>
+
+            <!-- Right: Blog Details -->
+            <div class="product-info" style="margin-top:2rem;">
+                <h1 class="product-title" id="blogTitle">Loading Title...</h1>
+                <div class="product-description" id="blogDescription" style="white-space: pre-line;">
+                    Loading content...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="OS Chennai Logo" id="footerLogo"
+                            style="height: 50px; margin-bottom: 1.5rem;">
+                    </div>
+                    <p>
+                        OS Chennai: Chennai's authorized supplier of enterprise laptops, HP printers, Epson
+                        projectors, and IT accessories since 2016. Serving 500+ businesses across Tamil Nadu.
+                    </p>
+                    <div class="social-icons" style="margin-top: 1rem;">
+                        <a href="https://instagram.com" target="_blank" class="social-box"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="social-box"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="tel:+919940428882" class="social-box"><i class="fa-solid fa-phone"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">Get a Quote</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html?cat=laptops">Laptops</a></li>
+                        <li><a href="products.html?cat=printers">Printers</a></li>
+                        <li><a href="products.html?cat=projectors">Projectors</a></li>
+                        <li><a href="products.html?cat=accessories">Accessories</a></li>
+                        <li><a href="contact.html">Bulk / Corporate Orders</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact-block">
+                    <h4 class="footer-title">Contact Us</h4>
+                    <p><i class="fa-solid fa-envelope"></i> sales@oschennai.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 9940428882</p>
+                    <p><i class="fa-solid fa-location-dot"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu</p>
+                    <p><i class="fa-solid fa-clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 OS Chennai. All Rights Reserved.</p>
+                <div>
+                    <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a> ·
+                    <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PHP Data Bridge -->
+    <script src="js/data.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function renderBlogDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = urlParams.get('id');
+            const blog = window.blogs && window.blogs.find(b => b.id == blogId);
+
+            if (!blog) {
+                document.getElementById('blogTitle').innerHTML = 'Blog Post Not Found';
+                document.getElementById('blogDescription').innerHTML = 'The post you are looking for does not exist or has been removed. <a href="blog.html">Go back to Blogs</a>.';
+                document.getElementById('blogImage').style.display = 'none';
+                return;
+            }
+
+
+            const sName = (window.settings && (window.settings.siteName || window.settings.site_name)) || "OS Chennai";
+            
+            document.getElementById('blogTitle').innerText = blog.title;
+            document.title = (blog.seo_title || blog.title) + ' | ' + sName;
+            
+            // Dynamic SEO Meta
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.name = "description";
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = blog.seo_description || (blog.description ? blog.description.substring(0, 160) : "Read our latest blog post.");
+
+            let metaKeywords = document.querySelector('meta[name="keywords"]');
+            if (!metaKeywords) {
+                metaKeywords = document.createElement('meta');
+                metaKeywords.name = "keywords";
+                document.head.appendChild(metaKeywords);
+            }
+            metaKeywords.content = blog.seo_keywords || blog.title.split(' ').join(', ');
+
+            document.getElementById('blogDescription').innerHTML = blog.description || 'No description provided.';
+            
+            const mainImg = document.getElementById('blogImage');
+            const img = blog.thumbnail;
+            if (img) {
+                mainImg.src = window.resolveAsset(img);
+            } else {
+                mainImg.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('dataLoaded', () => {
+            renderBlogDetail();
+        });
+
+        // UI Logic
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                icon.setAttribute('data-lucide', navLinks.classList.contains('active') ? 'x' : 'menu');
+                lucide.createIcons();
+            });
+        }
+    </script>
+</body>
+</html>

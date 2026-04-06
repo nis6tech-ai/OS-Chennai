@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS site_settings (
     project_id VARCHAR(50) UNIQUE,
     site_name VARCHAR(100),
     site_tagline VARCHAR(255),
-    site_logo VARCHAR(255),
-    hero_image VARCHAR(255),
+    site_logo LONGTEXT,
+    hero_image LONGTEXT,
     contact_email VARCHAR(100),
     contact_phone VARCHAR(50),
     whatsapp_number VARCHAR(50),
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
 CREATE TABLE IF NOT EXISTS categories (
     id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    image_url VARCHAR(255)
+    image_url LONGTEXT
 );
 
 -- Table for Products

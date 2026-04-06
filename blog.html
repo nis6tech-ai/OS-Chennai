@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | OS Chennai</title>
+    <meta name="description" content="Read the latest news and updates from OS Chennai.">
+
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body style="padding-top:100px;">
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="OS Chennai Logo" id="navLogo">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">OS Chennai
+                    <span>Electronics</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="contact.html" class="btn btn-primary"
+                    style="padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem;">Get a Quote <i
+                        data-lucide="arrow-right" style="width: 14px;"></i></a>
+                <button class="mobile-nav-toggle" id="menuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section-padding">
+        <div class="container">
+            <div style="max-width:900px;margin:0 auto;text-align:center;" data-aos="fade-up">
+                <span class="subtitle">BLOG & UPDATES</span>
+                <h1 style="font-size: clamp(2rem, 6vw, 3.5rem); margin: 1.5rem 0; line-height: 1.2;">Latest <span>News</span></h1>
+                <p style="font-size:1.2rem;color:var(--text-soft);line-height:1.8;margin-bottom:4rem;">
+                    Stay updated with the latest in enterprise hardware, local tech trends, and company news.
+                </p>
+            </div>
+
+            <div id="blogGrid" class="featured-grid">
+                <!-- Blogs will load here -->
+            </div>
+            
+            <div id="noBlogsMsg" style="display:none; text-align:center; padding: 4rem; color: var(--text-soft);">
+                No blogs available at the moment. Please check back later!
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="OS Chennai Logo" id="footerLogo"
+                            style="height: 50px; margin-bottom: 1.5rem;">
+                    </div>
+                    <p>
+                        OS Chennai: Chennai's authorized supplier of enterprise laptops, HP printers, Epson
+                        projectors, and IT accessories since 2016. Serving 500+ businesses across Tamil Nadu.
+                    </p>
+                    <div class="social-icons" style="margin-top: 1rem;">
+                        <a href="https://instagram.com" target="_blank" class="social-box"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="social-box"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="tel:+919940428882" class="social-box"><i class="fa-solid fa-phone"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">Get a Quote</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html?cat=laptops">Laptops</a></li>
+                        <li><a href="products.html?cat=printers">Printers</a></li>
+                        <li><a href="products.html?cat=projectors">Projectors</a></li>
+                        <li><a href="products.html?cat=accessories">Accessories</a></li>
+                        <li><a href="contact.html">Bulk / Corporate Orders</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact-block">
+                    <h4 class="footer-title">Contact Us</h4>
+                    <p><i class="fa-solid fa-envelope"></i> sales@oschennai.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 9940428882</p>
+                    <p><i class="fa-solid fa-location-dot"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu</p>
+                    <p><i class="fa-solid fa-clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 OS Chennai. All Rights Reserved.</p>
+                <div>
+                    <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a> ·
+                    <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PHP Data Bridge -->
+    <script src="js/data.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        lucide.createIcons();
+
+        function renderBlogs() {
+            if (typeof window.blogs === 'undefined' || !window.blogs.length) {
+                document.getElementById('noBlogsMsg').style.display = 'block';
+                return;
+            }
+            const grid = document.getElementById('blogGrid');
+            grid.innerHTML = '';
+            
+            window.blogs.forEach((b, idx) => {
+                const img = b.thumbnail ? window.resolveAsset(b.thumbnail) : 'assets/logo.png';
+                grid.innerHTML += `
+                    <div class="p-card-premium glass" data-aos="fade-up" data-aos-delay="${idx * 100}" onclick="window.location.href='blog-detail.html?id=${b.id}'" style="cursor:pointer;">
+                        <div class="p-img-box">
+                            <img src="${img}" alt="${b.title}" style="object-fit:cover;">
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin: 1rem 0 0.5rem;">${b.title}</h3>
+                        <p style="color: var(--text-soft); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                            ${b.seo_description || b.description || ''}
+                        </p>
+                        <div style="margin-top: auto;">
+                            <a href="blog-detail.html?id=${b.id}" class="btn btn-glass" style="width: 100%; justify-content: center; padding: 0.6rem;">Read More <i data-lucide="arrow-right"></i></a>
+                        </div>
+                    </div>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        window.addEventListener('dataLoaded', () => {
+            if (typeof settings !== 'undefined') {
+                const resolveUrl = (url) => {
+                    if(!url) return 'assets/logo.png';
+                    if(url.startsWith('http')) return url;
+                    return 'https://nutpa.in/' + url.replace(/^\//, '');
+                };
+                const sName = settings.siteName || settings.site_name || "OS Chennai";
+                document.title = `Blog | ${sName}`;
+                const navLogo = document.getElementById('navLogo');
+                const footerLogo = document.getElementById('footerLogo');
+                if (navLogo && settings.siteLogo) navLogo.src = resolveUrl(settings.siteLogo);
+                if (footerLogo && settings.siteLogo) footerLogo.src = resolveUrl(settings.siteLogo);
+            }
+            renderBlogs();
+        });
+
+        // UI Logic
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                icon.setAttribute('data-lucide', navLinks.classList.contains('active') ? 'x' : 'menu');
+                lucide.createIcons();
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>

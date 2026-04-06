@@ -78,7 +78,8 @@
 
   <link rel="stylesheet" href="css/style.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -497,9 +498,9 @@
           <a href="https://wa.me/919940428882" class="btn btn-outline-white" target="_blank">💬 WhatsApp Us Now</a>
         </div>
         <div class="cta-contact-line">
-          <span><i data-lucide="phone"></i> +91 9940428882</span>
-          <span><i data-lucide="mail"></i> sales@oschennai.com</span>
-          <span><i data-lucide="map-pin"></i> West Jafferkhanpet, Chennai</span>
+          <span><i class="fa-solid fa-phone"></i> +91 9940428882</span>
+          <span><i class="fa-solid fa-envelope"></i> sales@oschennai.com</span>
+          <span><i class="fa-solid fa-location-dot"></i> West Jafferkhanpet, Chennai</span>
         </div>
         <div class="trust-micro">
           Responses within 30 minutes · Mon–Sat 9:30 AM – 6:30 PM IST
@@ -522,9 +523,9 @@
             IT accessories since 2016. Serving 500+ businesses across Tamil Nadu.
           </p>
           <div class="social-icons" style="margin-top: 1rem;">
-            <a href="https://instagram.com" target="_blank" class="social-box"><i data-lucide="instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="social-box"><i data-lucide="linkedin"></i></a>
-            <a href="tel:+919940428882" class="social-box"><i data-lucide="phone"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-box"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="social-box"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="tel:+919940428882" class="social-box"><i class="fa-solid fa-phone"></i></a>
           </div>
         </div>
 
@@ -537,6 +538,7 @@
             <li><a href="about.html">About Us</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="contact.html">Get a Quote</a></li>
+            <li><a href="blog.html">Blog</a></li>
           </ul>
         </div>
 
@@ -555,10 +557,10 @@
         <!-- Column 4 -->
         <div class="footer-contact-block">
           <h4 class="footer-title">Contact Us</h4>
-          <p><i data-lucide="mail"></i> sales@oschennai.com</p>
-          <p><i data-lucide="phone"></i> +91 9940428882</p>
-          <p><i data-lucide="map-pin"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu</p>
-          <p><i data-lucide="clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
+          <p><i class="fa-solid fa-envelope"></i> sales@oschennai.com</p>
+          <p><i class="fa-solid fa-phone"></i> +91 9940428882</p>
+          <p><i class="fa-solid fa-location-dot"></i> No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu</p>
+          <p><i class="fa-solid fa-clock"></i> Mon–Sat: 9:30 AM – 6:30 PM</p>
         </div>
       </div>
 
@@ -658,31 +660,22 @@
     window.addEventListener('dataLoaded', () => {
       // 1. Branding & Identity
       if (typeof settings !== 'undefined') {
+        const resolveUrl = (url) => {
+            if(!url) return '';
+            if(url.startsWith('http') || url.startsWith('assets/')) return url;
+            return 'https://nutpa.in/' + url.replace(/^\//, '');
+        };
         const sName = settings.siteName || settings.site_name || "OS Chennai";
         const sTag = settings.siteTagline || settings.site_tagline || "Authorized IT Hardware Supplier";
         document.title = `${sName} | ${sTag}`;
 
         const navLogo = document.getElementById('navLogo');
         const footerLogo = document.getElementById('footerLogo');
-        if (navLogo && settings.siteLogo) navLogo.src = settings.siteLogo;
-        if (footerLogo && settings.siteLogo) footerLogo.src = settings.siteLogo;
+        if (navLogo && settings.siteLogo) navLogo.src = resolveUrl(settings.siteLogo);
+        if (footerLogo && settings.siteLogo) footerLogo.src = resolveUrl(settings.siteLogo);
 
         const heroImage = document.getElementById('heroImage');
-        if (heroImage && settings.heroImage) heroImage.src = settings.heroImage;
-
-        const footerEmailP = document.querySelector('.footer-contact-block p:nth-child(2)');
-        const footerPhoneP = document.querySelector('.footer-contact-block p:nth-child(3)');
-        const footerAddressP = document.querySelector('.footer-contact-block p:nth-child(4)');
-
-        if (footerEmailP && (settings.contactEmail || settings.contact_email)) {
-          footerEmailP.innerHTML = `<i data-lucide="mail"></i> ${settings.contactEmail || settings.contact_email}`;
-        }
-        if (footerPhoneP && (settings.contactPhone || settings.contact_phone)) {
-          footerPhoneP.innerHTML = `<i data-lucide="phone"></i> ${settings.contactPhone || settings.contact_phone}`;
-        }
-        if (footerAddressP && (settings.contactAddress || settings.contact_address)) {
-          footerAddressP.innerHTML = `<i data-lucide="map-pin"></i> ${settings.contactAddress || settings.contact_address}`;
-        }
+        if (heroImage && settings.heroImage) heroImage.src = resolveUrl(settings.heroImage);
       }
 
       // 2. Featured Products (Top Selling)
@@ -695,25 +688,34 @@
           featuredContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-soft);">No products marked as Top Selling yet. Update in Admin Panel.</div>`;
         } else {
           displayProducts.forEach((p, idx) => {
-            const displayImg = p.media && p.media.length > 0 ? p.media[0].url : (p.image || '');
+            const displayImg = p.media && p.media.length > 0 ? window.resolveAsset(p.media[0].url) : window.resolveAsset(p.image || '');
+            let safeName = (p.name || '').replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ').replace(/`/g, '&#96;').replace(/\$\{/g, '$ {');
+            let safeDesc = (p.description || '').replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, ' ').replace(/`/g, '&#96;').replace(/\$\{/g, '$ {');
+            
+            // Get category name
+            const cats = (typeof window.projectData !== 'undefined' && window.projectData.categories) ? window.projectData.categories : [];
+            const catObj = cats.find(c => c.id === p.category);
+            const catName = catObj ? catObj.name : p.category;
+
             featuredContainer.innerHTML += `
                     <div class="p-card-premium glass" data-aos="fade-up" data-aos-delay="${idx * 150}" onclick="window.location.href='product-detail.html?id=${p.id}'" style="cursor:pointer;">
                         <div class="p-img-box">
-                            <img src="${displayImg}" alt="${p.name}" style="object-fit: contain;">
+                            <img src="${displayImg}" alt="${safeName.replace(/"/g, '&quot;')}" style="object-fit: contain;">
                         </div>
-                        <span class="p-tag" style="text-transform:uppercase;">${p.category}</span>
-                        <h3 style="font-size: 1.1rem; margin-top: 0.5rem; font-weight: 800; margin-bottom: 0.5rem;">${p.name}</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${p.description || 'No description available.'}</p>
+                        <span class="p-tag" style="text-transform:uppercase;">${catName}</span>
+                        <h3 style="font-size: 1.1rem; margin-top: 0.5rem; font-weight: 800; margin-bottom: 0.5rem;">${safeName}</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${safeDesc || 'No description available.'}</p>
                         <div class="p-price-row" style="margin-bottom: 1rem;">
                             <span class="p-price" style="font-size: 1.25rem; font-weight: 800;">₹${p.price}</span>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;" onclick="event.stopPropagation()">
-                            <a href="https://wa.me/919940428882?text=${encodeURIComponent(`Hi OS Chennai, I am interested in:
-🛍️ Product: ${p.name}
+                            <a href="product-detail.html?id=${p.id}" class="btn btn-glass" style="width: 100%; justify-content: center; font-size: 0.9rem; padding: 0.6rem; border: 1px solid var(--border);">View Technical Specs</a>
+                            <a href="https://wa.me/${(window.settings && (window.settings.whatsappNumber || window.settings.whatsapp_number)) || '919940428882'}?text=${encodeURIComponent(`Hi OS Chennai, I am interested in:
+🛍️ Product: ${safeName}
 💰 Price: ${p.price}
-📝 Specs: ${p.description ? p.description.substring(0, 100) : 'Details on request'}...
+📝 Specs: ${safeDesc ? safeDesc.substring(0, 100) : 'Details on request'}...
 
-Please share more details.`)}" class="btn" style="background: #25D366; color: white; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center; border: none; text-decoration: none;" target="_blank">📞 WhatsApp</a>
+Please share more details.`)}" class="btn" style="background: #25D366; color: white; width: 100%; padding: 0.6rem; border-radius: 6px; font-size: 0.9rem; justify-content: center; border: none; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;" target="_blank">📞 WhatsApp Inquiry</a>
                         </div>
                     </div>
                 `;
@@ -742,7 +744,7 @@ Please share more details.`)}" class="btn" style="background: #25D366; color: wh
     </a>
 
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/919940428882" class="whatsapp-float" target="_blank"
+    <a href="https://wa.me/919940428882?text=Hi OS Chennai, I have a general enquiry about your IT hardware solutions for my business." class="whatsapp-float" target="_blank"
       style="display: flex; align-items: center; justify-content: center;">
       <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="fill: currentColor;">
         <path
