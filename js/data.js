@@ -137,57 +137,79 @@ function applyDynamicSettings(settings) {
     const email = settings.contactEmail || settings.contact_email;
     if (email) {
         document.querySelectorAll('a[href^="mailto:"]').forEach(a => a.href = 'mailto:' + email);
-        updateTextNodes(document.body, defaultEmail, email);
-        updateTextNodes(document.body, 'sales@oschennai.in', email);
-        updateTextNodes(document.body, 'solutions@oschennai.in', email);
-        updateTextNodes(document.body, 'sales@oschennai.com', email);
-        updateTextNodes(document.body, 'info@oschennai.in', email);
+        
+        // Use a more robust case-insensitive replacement for emails
+        const emailDefaults = ['sales@nutpa.com', 'sales@oschennai.in', 'solutions@oschennai.in', 'solutions@oschennai.com', 'sales@oschennai.com', 'info@oschennai.in', 'support@rentla.in'];
+        
+        function updateEmailNodes(node) {
+            if (node.nodeType === 3) {
+                let val = node.nodeValue;
+                emailDefaults.forEach(def => {
+                    const regex = new RegExp(def, 'gi');
+                    if (regex.test(val)) {
+                        val = val.replace(regex, email);
+                    }
+                });
+                node.nodeValue = val;
+            } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+                node.childNodes.forEach(child => updateEmailNodes(child));
+            }
+        }
+        updateEmailNodes(document.body);
     }
 
     // 4. Update Address
     const addressValue = settings.contactAddress || settings.contact_address;
     if (addressValue) {
         /**
-         * SPECIAL ADDRESS HANDLER:
-         * To prevent "doubling" where partial address pieces are replaced with the FULL address,
-         * we prioritize replacing larger blocks first and avoid replacing short pieces that 
-         * are already contained within the intended replacement.
+         * BULLETPROOF ADDRESS DUPLICATION FIX:
+         * We target the pieces of the address block individually.
+         * If a node contains ANY piece of the old address, we check if the PARENT 
+         * container already has the full address. If not, we replace that node with 
+         * the full address. If yes, we DELETE the redundant fragment.
          */
-        const addressDefaults = [
+        
+        const addressPieces = [
             'No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu',
             'No 1/2, Janakiraman st, West Jafferkhanpet, Chennai — 600083, Tamil Nadu',
-            'No 1/2, Janakiraman st, 83rd St, Muthurangam Block, West Jafferkhanpet, Chennai — 600083, Tamil Nadu',
             'No 1/2, Janakiraman st, 83rd St, Muthurangam Block, West Jafferkhanpet, Chennai,Tamil Nadu 600083',
-            'No 1/2, Janakiraman St, West Jafferkhanpet',
-            'No 1/2, Janakiraman st, West Jafferkhanpet'
-            // NOTE: Removed 'West Jafferkhanpet, Chennai' as it's too short and might cause partial doubling
+            'No 1/2, Janakiraman st,',
+            '83rd St, Muthurangam Block,',
+            'West Jafferkhanpet,',
+            'Chennai,Tamil Nadu 600083',
+            'Chennai — 600083, Tamil Nadu'
         ];
         
-        function updateAddressNodes(node) {
+        function safeAddressUpdate(node) {
             if (node.nodeType === 3) {
-                // PROTECTION: If this node already contains the target addressValue, skip it to avoid doubling.
-                if (node.nodeValue.includes(addressValue)) return;
+                let val = node.nodeValue;
+                const parent = node.parentElement;
+                
+                // Critical Check: Does the parent container already have the full address?
+                const parentAlreadyHasFull = parent && (parent.innerText || '').includes(addressValue);
 
-                for (const search of addressDefaults) {
-                    if (node.nodeValue.includes(search)) {
-                        node.nodeValue = node.nodeValue.split(search).join(addressValue);
-                        return; // Important: Stop after first replacement for this node
+                let changed = false;
+                for (const piece of addressPieces) {
+                    if (val.includes(piece)) {
+                        if (!parentAlreadyHasFull) {
+                            // First match found for this container, replace with FULL address
+                            val = val.split(piece).join(addressValue);
+                            node.nodeValue = val;
+                            return; // Stop and move to next node
+                        } else if (!val.includes(addressValue)) {
+                            // Parent already has it elsewhere, so delete this redundant piece
+                            val = val.split(piece).join('');
+                            changed = true;
+                        }
                     }
                 }
-
-                // Final fallback for very specific multi-line pieces
-                const pieces = ['Muthurangam Block', '83rd St'];
-                pieces.forEach(p => {
-                    if (node.nodeValue.includes(p)) {
-                        node.nodeValue = node.nodeValue.replace(p, ''); // Remove the piece if it's redundant
-                    }
-                });
+                if (changed) node.nodeValue = val.trim();
 
             } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
-                node.childNodes.forEach(child => updateAddressNodes(child));
+                node.childNodes.forEach(child => safeAddressUpdate(child));
             }
         }
-        updateAddressNodes(document.body);
+        safeAddressUpdate(document.body);
     }
 
     // 5. Update Social Links
