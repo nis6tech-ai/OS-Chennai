@@ -6,14 +6,14 @@
 // ─── Global Asset Resolver ────────────────────────────────────────────────────
 // All image paths in the DB are relative paths stored on nutpa.in.
 // This function ensures they are always correctly prefixed for OS Chennai.
-window.resolveAsset = function(url) {
+window.resolveAsset = function (url) {
     if (!url) return 'assets/logo.png';
     if (url.startsWith('http') || url.startsWith('data:')) return url;
     return 'https://www.nutpa.in/' + url.replace(/^\//, '');
 };
 
 // Global WhatsApp Formatter - Ensures 91 prefix for India
-window.formatWhatsappNumber = function(num) {
+window.formatWhatsappNumber = function (num) {
     if (!num) return '919940428882';
     let clean = String(num).replace(/[^0-9]/g, '');
     // If it's a 10-digit number, assume it's India and prepend 91
@@ -65,7 +65,7 @@ function applyDynamicSettings(settings) {
         if (replaceStr === undefined || replaceStr === null) return;
         const replaceVal = String(replaceStr);
         if (replaceVal.trim() === '') return;
-        
+
         if (node.nodeType === 3) {
             // PROTECTION: If this node already contains the target replacement string, skip it to avoid doubling.
             if (node.nodeValue.includes(replaceVal)) return;
@@ -137,10 +137,10 @@ function applyDynamicSettings(settings) {
     const email = settings.contactEmail || settings.contact_email;
     if (email) {
         document.querySelectorAll('a[href^="mailto:"]').forEach(a => a.href = 'mailto:' + email);
-        
+
         // Use a more robust case-insensitive replacement for emails
-        const emailDefaults = ['sales@nutpa.com', 'sales@oschennai.in', 'solutions@oschennai.in', 'solutions@oschennai.com', 'sales@oschennai.com', 'info@oschennai.in', 'support@rentla.in'];
-        
+        const emailDefaults = ['sales@nutpa.com', 'support@rentla.in'];
+
         function updateEmailNodes(node) {
             if (node.nodeType === 3) {
                 let val = node.nodeValue;
@@ -168,23 +168,16 @@ function applyDynamicSettings(settings) {
          * container already has the full address. If not, we replace that node with 
          * the full address. If yes, we DELETE the redundant fragment.
          */
-        
+
         const addressPieces = [
-            'No 1/2, Janakiraman St, West Jafferkhanpet, Chennai — 600083, Tamil Nadu',
-            'No 1/2, Janakiraman st, West Jafferkhanpet, Chennai — 600083, Tamil Nadu',
             'No 1/2, Janakiraman st, 83rd St, Muthurangam Block, West Jafferkhanpet, Chennai,Tamil Nadu 600083',
-            'No 1/2, Janakiraman st,',
-            '83rd St, Muthurangam Block,',
-            'West Jafferkhanpet,',
-            'Chennai,Tamil Nadu 600083',
-            'Chennai — 600083, Tamil Nadu'
         ];
-        
+
         function safeAddressUpdate(node) {
             if (node.nodeType === 3) {
                 let val = node.nodeValue;
                 const parent = node.parentElement;
-                
+
                 // Critical Check: Does the parent container already have the full address?
                 const parentAlreadyHasFull = parent && (parent.innerText || '').includes(addressValue);
 
